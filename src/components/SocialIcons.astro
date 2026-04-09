@@ -1,0 +1,10 @@
+---
+// Compõe os ícones sociais do theme-black com o switcher de modo do
+// starlight-view-modes. O plugin não conseguia registrar seu SocialIcons
+// porque o theme-black já havia tomado o slot.
+import ThemeBlackSocialIcons from "starlight-theme-black/overrides/SocialIcons.astro";
+import ViewModeSwitcher from "starlight-view-modes/components/ViewModeSwitcher.astro";
+---
+
+<ThemeBlackSocialIcons />
+<ViewModeSwitcher type="social-links" />

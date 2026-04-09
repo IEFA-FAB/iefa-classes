@@ -6,9 +6,37 @@ import mermaid from "astro-mermaid";
 import starlightThemeBlack from "starlight-theme-black";
 import starlightViewModes from "starlight-view-modes";
 
+/**
+ * Plugin Vite que elimina o layout shift de fontes durante a navegação.
+ *
+ * O theme-black injeta 18 arquivos @fontsource com font-display: swap.
+ * Com View Transitions, cada navegação dispara o re-swap → shift visível.
+ *
+ * Solução: interceptar o CSS do @fontsource no pipeline do Vite e substituir
+ * font-display: swap por font-display: optional. Com "optional":
+ *  - Cache hit (navegações subsequentes): fonte carrega em 0ms → sem shift.
+ *  - Cache miss (primeira visita): usa fallback sem jamais fazer swap → sem shift.
+ * Os <link rel="preload"> no Head.astro garantem que os pesos mais usados
+ * estejam no cache antes da primeira renderização de CSS.
+ */
+const fontDisplayOptional = {
+	name: "font-display-optional",
+	transform(/** @type {string} */ code, /** @type {string} */ id) {
+		if (id.includes("@fontsource") && id.endsWith(".css")) {
+			return {
+				code: code.replace(/font-display:\s*swap/g, "font-display: optional"),
+				map: null,
+			};
+		}
+	},
+};
+
 // https://astro.build/config
 export default defineConfig({
 	site: "https://cpaint.iefa.com.br",
+	vite: {
+		plugins: [fontDisplayOptional],
+	},
 	integrations: [
 		mermaid({ theme: "dark", autoTheme: true }),
 		starlight({
@@ -42,8 +70,12 @@ export default defineConfig({
 			defaultLocale: "pt-BR",
 			customCss: ["./src/styles/custom.css"],
 			components: {
-				PageTitle: "./src/components/PageTitle.astro",
+				Head: "./src/components/Head.astro",
 				PageFrame: "./src/components/PageFrame.astro",
+				PageTitle: "./src/components/PageTitle.astro",
+				Search: "./src/components/Search.astro",
+				SocialIcons: "./src/components/SocialIcons.astro",
+				TableOfContents: "./src/components/TableOfContents.astro",
 			},
 			social: [
 				{
