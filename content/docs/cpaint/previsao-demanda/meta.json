@@ -1,0 +1,16 @@
+{
+  "title": "Previsão de Demanda",
+  "pages": [
+    "index",
+    "cronograma",
+    "---Nível 100 — Introdutório",
+    "exl101",
+    "stat101",
+    "---Nível 200 — Intermediário",
+    "ana201",
+    "fcst201",
+    "log201",
+    "---Nível 300 — Avançado",
+    "opt301"
+  ]
+}

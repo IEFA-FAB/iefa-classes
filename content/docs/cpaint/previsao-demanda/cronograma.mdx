@@ -1,0 +1,355 @@
+---
+title: Cronograma Detalhado
+description: Calendário de aulas com granularidade por tópico e fluxo de conceitos.
+icon: Calendar
+---
+
+Este cronograma utiliza uma abordagem de **aprendizado entrelaçado**, onde conceitos fundamentais (Estatística) são imediatamente aplicados em métodos de previsão e gestão de estoque na mesma diária, reforçando a retenção do conhecimento.
+
+## Visualização da Trilha
+
+```mermaid
+gantt
+    title Fluxo de Aprendizado - Previsão de Demanda
+    dateFormat YYYY-MM-DD
+    axisFormat %d/%m
+    excludes weekends
+
+    section Fundamentos (Fev-Abr)
+    ANA201 Qualidade de Dados               :done, qd, 2026-02-20, 1d
+    STAT101 Estatística Básica              :done, stat, 2026-03-18, 14d
+    FCST201 Introdução Previsão             :done, fcst1, 2026-03-18, 2d
+    ANA201 Análise Exploratória             :done, ana, 2026-04-01, 2d
+
+    section Estoque e Ciclos (Abr-Mai)
+    LOG201 Gestão de Estoque                :log, 2026-04-01, 40d
+    FCST201 Métodos Avançados               :fcst2, 2026-05-14, 9d
+
+    section Otimização (Mai-Jun)
+    OPT301 Grafos e Rotas                   :opt, 2026-05-28, 6d
+
+    section Projeto Final (Jun-Ago)
+    Workshop Integrado                      :crit, proj, 2026-06-03, 30d
+```
+
+## Calendário Detalhado
+
+### Módulo 1: Qualidade de Dados e Banco de Dados — 20/02 (Sex)
+
+<Callout type="info" title="Material da Aula">
+[📊 Ver Apresentação no Figma](https://www.figma.com/deck/9mIUKmeNBUUnt8li7uDfx6)
+</Callout>
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [ANA201](./ana201) | **Conceito**: Qualidade de Dados | <Badge variant="note">Teoria</Badge> |
+| [ANA201](./ana201) | **Conceito**: Estruturação de Banco de Dados | <Badge variant="note">Teoria</Badge> |
+| [ANA201](./ana201) | **Conceito**: Normalização 1NF e 2NF | <Badge variant="tip">Teoria+Prática</Badge> |
+
+</div>
+
+---
+
+### Módulo 2: Fundamentos e Primeiros Modelos — 18/03 (Qua)
+
+<Callout type="info" title="Material da Aula">
+[📊 Ver Apresentação no Figma](https://www.figma.com/deck/HFU48kIGrwKCIG63JyhHij)
+</Callout>
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [STAT101](./stat101) | **Conceito**: Medidas de Tendência Central (Média, Mediana) | <Badge variant="note">Teoria+Prática</Badge> |
+| [FCST201](./fcst201) | **Aplicação**: O método de Médias Móveis Simples | <Badge variant="tip">Teoria+Prática</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Construindo previsão por média no Excel | <Badge variant="success">Lab</Badge> |
+
+</div>
+
+---
+
+### Módulo 3: Dispersão e Estoque de Segurança — 26/03 (Qui)
+
+<Callout type="info" title="Material da Aula">
+[📊 Ver Apresentação no Figma](https://www.figma.com/deck/zGeW89bjz9ML1SleDWXLI9)
+</Callout>
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [STAT101](./stat101) | **Conceito**: Dispersão (Desvio Padrão) e Normal | <Badge variant="note">Teoria</Badge> |
+| [LOG201](./log201) | **Aplicação**: Estoque de Segurança (protegendo da variação) | <Badge variant="tip">Teoria+Prática</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Calculadora de Estoque de Segurança | <Badge variant="success">Lab</Badge> |
+
+</div>
+
+---
+
+### Módulo 4: Análise de Dados e Ciclos — 01/04 (Qua)
+
+<Callout type="info" title="Material da Aula">
+[📊 Ver Apresentação no Figma](https://www.figma.com/deck/OcMDlkqgmlvAL8bagbmJDH)
+</Callout>
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [STAT101](./stat101) | **Conceito**: Outliers e Hipótese Nula (Intuição) | <Badge variant="note">Teoria</Badge> |
+| [ANA201](./ana201) | **Aplicação**: EDA - Identificando anomalias na demanda | <Badge variant="tip">Prática</Badge> |
+| [LOG201](./log201) | **Visualização**: Padrão Dente de Serra (Ciclos de estoque) | <Badge variant="note">Teoria</Badge> |
+| Workshop | Discussão de Caso Real | <Badge variant="success">Dinâmica</Badge> |
+| [LOG201](./log201) | **Conceito**: Ponto de Reposição (Quando pedir?) | <Badge variant="note">Teoria</Badge> |
+
+</div>
+
+---
+
+### Módulo 5: Sazonalidade e Segmentação — 09/04 (Qui)
+
+<Callout type="info" title="Material da Aula">
+[📊 Ver Apresentação no Figma](https://www.figma.com/deck/6xGaKDPl2AKIYtwsd5plMR)
+</Callout>
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [FCST201](./fcst201) | **Impacto**: Erro de Previsão vs. Ruptura de Estoque | <Badge variant="tip">Teoria+Prática</Badge> |
+| Workshop | **Simulação**: O custo da falta (Stockout game) | <Badge variant="success">Dinâmica</Badge> |
+| [STAT101](./stat101) | **Conceito**: Correlação e Causalidade | <Badge variant="note">Teoria</Badge> |
+| [ANA201](./ana201) | **Conceito**: Decomposição de Séries (Tendência/Sazonalidade) | <Badge variant="note">Teoria</Badge> |
+| [FCST201](./fcst201) | **Aplicação**: Ajustando previsões para Sazonalidade | <Badge variant="tip">Prática</Badge> |
+| [ANA201](./ana201) | **Conceito**: Princípio de Pareto (80/20) | <Badge variant="note">Teoria</Badge> |
+| [LOG201](./log201) | **Aplicação**: Curva ABC para Gestão de Estoque | <Badge variant="tip">Prática</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Construindo a Curva ABC no Excel | <Badge variant="success">Lab</Badge> |
+
+</div>
+
+---
+
+### Módulo 6: Comunicação e Consolidação I
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [ANA201](./ana201) | **Conceito**: Visualização de Dados Eficiente | <Badge variant="note">Teoria</Badge> |
+| [ANA201](./ana201) | **Técnica**: Data Storytelling para Gestores | <Badge variant="tip">Prática</Badge> |
+| Workshop | **Atividade**: Apresentação de Resultados (Mock) | <Badge variant="success">Dinâmica</Badge> |
+
+</div>
+
+---
+
+### Módulo 7: Gestão de Suprimentos Avançada
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [LOG201](./log201) | **Revisão**: Parâmetros de Estoque (ROP, ES) | <Badge variant="caution">Revisão</Badge> |
+| [LOG201](./log201) | **Conceito**: Lead Time e Variabilidade de Fornecimento | <Badge variant="note">Teoria</Badge> |
+| [LOG201](./log201) | **Aplicação**: Impacto do Lead Time no ROP | <Badge variant="tip">Prática</Badge> |
+| Workshop | Estudo de Caso: Ruptura na Base Aérea | <Badge variant="success">Caso</Badge> |
+| Workshop | Análise de Causa Raiz | <Badge variant="tip">Prática</Badge> |
+| Workshop | Apresentação de Soluções do Caso | <Badge variant="success">Dinâmica</Badge> |
+
+</div>
+
+---
+
+### Módulo 8: Otimização de Níveis de Estoque
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [LOG201](./log201) | **Conceito**: Nível de Serviço (Significado Estatístico) | <Badge variant="note">Teoria</Badge> |
+| [LOG201](./log201) | **Aplicação**: Calculando Nível de Serviço Ótimo | <Badge variant="tip">Prática</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Tabela Dinâmica para Análise de Nível | <Badge variant="success">Lab</Badge> |
+| [LOG201](./log201) | **Conceito**: Custo de Falta vs. Custo de Sobra | <Badge variant="note">Teoria</Badge> |
+| [LOG201](./log201) | **Aplicação**: Trade-offs gerenciais | <Badge variant="tip">Prática</Badge> |
+| Workshop | Debate: Risco vs. Custo na Força Aérea | <Badge variant="success">Dinâmica</Badge> |
+
+</div>
+
+---
+
+### Módulo 9: Economia e Suprimento
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [LOG201](./log201) | **Conceito**: Curva de Suprimento | <Badge variant="note">Teoria</Badge> |
+| [LOG201](./log201) | **Conceito**: Elasticidade Preço/Quantidade | <Badge variant="note">Teoria</Badge> |
+| [LOG201](./log201) | **Aplicação**: Análise de propostas de fornecedores | <Badge variant="tip">Prática</Badge> |
+| Workshop | Negociação baseada em dados | <Badge variant="success">Simulação</Badge> |
+
+</div>
+
+---
+
+### Módulo 10: Lote Econômico e KPIs
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [LOG201](./log201) | **Conceito**: Custos de Pedido vs. Custos de Posse | <Badge variant="note">Teoria</Badge> |
+| [LOG201](./log201) | **Modelo**: EOQ (Lote Econômico de Compra) | <Badge variant="note">Teoria</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Calculadora EOQ e Sensibilidade | <Badge variant="success">Lab</Badge> |
+| [LOG201](./log201) | **Conceito**: KPIs Logísticos (Giro, Cobertura) | <Badge variant="note">Teoria</Badge> |
+| [ANA201](./ana201) | **Aplicação**: Dashboard de KPIs de Estoque | <Badge variant="tip">Prática</Badge> |
+| Workshop | Análise de Saúde do Estoque (Dataset Real) | <Badge variant="success">Dinâmica</Badge> |
+
+</div>
+
+---
+
+### Módulo 11: Previsão Avançada I
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [FCST201](./fcst201) | **Conceito**: Limitações da Média Móvel | <Badge variant="note">Teoria</Badge> |
+| [FCST201](./fcst201) | **Intro**: Média Móvel Ponderada | <Badge variant="note">Teoria</Badge> |
+| [FCST201](./fcst201) | **Aplicação**: Definindo pesos para dados recentes | <Badge variant="tip">Prática</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Otimizando pesos no Excel (Solver Intro) | <Badge variant="success">Lab</Badge> |
+| Workshop | Competição de Previsão (Ponderada vs Simples) | <Badge variant="success">Dinâmica</Badge> |
+
+</div>
+
+---
+
+### Módulo 12: Previsão Avançada II
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [FCST201](./fcst201) | **Conceito**: Suavização Exponencial Simples (SES) | <Badge variant="note">Teoria</Badge> |
+| [FCST201](./fcst201) | **Aplicação**: O parâmetro Alpha | <Badge variant="tip">Prática</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Implementando SES no Excel | <Badge variant="success">Lab</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Solver para encontrar Alpha ótimo | <Badge variant="success">Lab</Badge> |
+
+</div>
+
+---
+
+### Módulo 13: Qualidade da Previsão
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [FCST201](./fcst201) | **Conceito**: Métricas de Erro (MAD, MSE, MAPE) | <Badge variant="note">Teoria</Badge> |
+| [FCST201](./fcst201) | **Conceito**: Viés (Bias) de Previsão | <Badge variant="note">Teoria</Badge> |
+| Workshop | **Aplicação**: Diagnosticando modelos ruins | <Badge variant="tip">Prática</Badge> |
+
+</div>
+
+---
+
+### Módulo 14: Introdução a Redes e Grafos
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [OPT301](./opt301) | **Conceito**: Teoria dos Grafos e Redes Logísticas | <Badge variant="note">Teoria</Badge> |
+| [OPT301](./opt301) | **Aplicação**: Modelando problemas reais como grafos | <Badge variant="tip">Prática</Badge> |
+| [OPT301](./opt301) | **Ferramenta**: Matrizes de Adjacência e Custos | <Badge variant="success">Lab</Badge> |
+| Workshop | Desenhando a rede logística da Unidade | <Badge variant="success">Dinâmica</Badge> |
+
+</div>
+
+---
+
+### Módulo 15: Algoritmos de Caminho Mínimo
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [OPT301](./opt301) | **Conceito**: Algoritmo de Dijkstra (Intuição) | <Badge variant="note">Teoria</Badge> |
+| [OPT301](./opt301) | **Aplicação**: Dijkstra passo-a-passo (Manual) | <Badge variant="tip">Prática</Badge> |
+| Workshop | Desafio de Roteirização Manual | <Badge variant="success">Dinâmica</Badge> |
+
+</div>
+
+---
+
+### Módulo 16: Roteirização Computacional
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [OPT301](./opt301) | **Conceito**: Vehicle Routing Problem (VRP) | <Badge variant="note">Teoria</Badge> |
+| [OPT301](./opt301) | **Aplicação**: Restrições de Capacidade e Tempo | <Badge variant="tip">Prática</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Solver para VRP Simples | <Badge variant="success">Lab</Badge> |
+| [OPT301](./opt301) | **Aplicação**: VRP com Múltiplos Veículos | <Badge variant="tip">Prática</Badge> |
+| [EXL101](./exl101) | **Ferramenta**: Otimização avançada no Excel | <Badge variant="success">Lab</Badge> |
+| Workshop | Laboratório de Otimização de Rota | <Badge variant="success">Dinâmica</Badge> |
+
+</div>
+
+---
+
+### Módulo 17: Consolidação e Aplicações Militares
+
+<div class="schedule-container">
+
+| Matéria | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [OPT301](./opt301) | **Conceito**: Casos de Uso Militar (Vacinas, Emergência) | <Badge variant="note">Teoria</Badge> |
+| Workshop | Briefing do Projeto Final Integrado | <Badge variant="danger">Projeto</Badge> |
+| Workshop | Formação de Equipes e Definição de Escopo | <Badge variant="danger">Projeto</Badge> |
+| Workshop | Coleta de Dados Inicial | <Badge variant="danger">Projeto</Badge> |
+
+</div>
+
+---
+
+### Módulo 18: Projeto Integrado - Parte I
+
+<div class="schedule-container">
+
+| Atividade | Foco |
+| :-------- | :--- |
+| Projeto Integrado | Dados e Previsão de Demanda |
+| Projeto Integrado | Previsão e Planejamento de Estoque |
+
+</div>
+
+---
+
+### Módulo 19: Projeto Integrado - Parte II
+
+<div class="schedule-container">
+
+| Atividade | Foco |
+| :-------- | :--- |
+| Projeto Integrado | Estoque e Distribuição (Rotas) |
+| Projeto Integrado | Consolidação em Dashboards e Relatório |
+
+</div>
+
+---
+
+### Revisão e Exame
+
+<div class="schedule-container">
+
+| Data | Atividade | Detalhe |
+| :--- | :-------- | :------ |
+| **14/07 (Ter)** | **Revisão Geral** | Conceitos Chave + Plantão de Dúvidas |
+| **04/08 (Ter)** | **Reserva** | — |
+
+</div>

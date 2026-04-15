@@ -1,0 +1,116 @@
+---
+title: LOG201 - Gestão de Estoque e Cadeia
+description: Técnicas de gestão de estoque, ponto de reposição e cadeia de abastecimento.
+icon: Package
+---
+
+**Código**: LOG201  
+**Nível**: Intermediário  
+**Pré-requisitos**: STAT101
+
+## Objetivos de Aprendizagem
+
+Ao final desta matéria, o aluno deverá ser capaz de:
+1. Calcular o **ponto de reposição** (reorder point) considerando lead time e demanda média.
+2. Determinar o **estoque de segurança** usando variabilidade da demanda.
+3. Interpretar e analisar **padrões dente de serra** em gráficos de estoque.
+4. Compreender a **curva de suprimento** e seu impacto no planejamento.
+5. Aplicar o **Lote Econômico de Compra (EOQ)** para otimizar custos de pedido.
+6. Integrar a **Curva ABC** na priorização da gestão de itens.
+7. Calcular e interpretar **KPIs Logísticos** fundamentais (Giro, Cobertura, Acuracidade).
+
+## Tópicos Abordados
+
+### Fundamentos de Estoque
+- **Tipos de Estoque**: Matéria-prima, produtos em processo, produtos acabados, MRO.
+- **Custos de Estoque**: Armazenagem, pedido, falta (stockout).
+- **Lead Time**: Tempo entre pedido e recebimento.
+
+### Ponto de Reposição
+- Cálculo básico: `Ponto de Reposição = Demanda no Lead Time + Estoque de Segurança`
+- Fatores que influenciam: variabilidade da demanda, confiabilidade do fornecedor.
+- Exemplos práticos com dados da FAB.
+
+### Estoque de Segurança
+- Conceito de **nível de serviço** (service level).
+- Uso da **Distribuição Normal** (conceitos de STAT101).
+- Cálculo usando desvio padrão da demanda.
+- Trade-off entre custo de armazenagem e risco de ruptura.
+
+### Padrão Dente de Serra
+- Visualização do comportamento do estoque ao longo do tempo.
+- Identificação de ciclos de pedido.
+- Análise de picos e vales.
+
+### Curva de Suprimento
+- Relação entre preço e quantidade fornecida.
+- Elasticidade de suprimento.
+- Impacto de restrições logísticas.
+
+### Lote Econômico de Compra (EOQ)
+- Fórmula clássica do EOQ (sem derivação matemática).
+- Aplicação usando Excel.
+- Análise de sensibilidade dos parâmetros.
+
+### Integração com Curva ABC
+- Políticas de estoque diferenciadas por classe:
+  - **Classe A**: Controle rigoroso, menor estoque de segurança.
+  - **Classe B**: Controle moderado.
+  - **Classe C**: Controle simplificado, maior estoque de segurança.
+
+### KPIs Logísticos Fundamentais
+
+> **"What gets measured gets managed."** - Peter Drucker
+
+- **Giro de Estoque (Inventory Turnover)**:
+  - Quantas vezes o estoque é renovado por período.
+  - Fórmula: `Custo das Mercadorias Vendidas / Estoque Médio`
+  - Interpretação: Alto giro = eficiência; Baixo giro = capital parado.
+  
+- **Cobertura de Estoque (Days Inventory Outstanding - DIO)**:
+  - Quantos dias o estoque atual duraria.
+  - Fórmula: `(Estoque Atual / Demanda Média Diária)`
+  - Aplicação: Planejamento de reposição.
+  
+- **Acuracidade de Inventário**:
+  - Percentual de itens com contagem física = sistema.
+  - Meta: >95% para operações de classe mundial.
+  - Impacto: Decisões baseadas em dados errados são ruins.
+
+## Ferramentas Práticas
+
+### Excel
+- Modelo de cálculo de ponto de reposição.
+- Simulação de cenários de lead time variável.
+- Gráficos de dente de serra automatizados.
+
+### Google Sheets
+- Dashboard de monitoramento de estoque.
+- Alertas automáticos de ponto de reposição.
+
+## Materiais de Consulta
+
+- **Livro**: "Administração de Materiais e Recursos Patrimoniais" - Viana (Capítulos 5-7).
+- **Artigo**: "Inventory Management Best Practices" - APICS.
+- **Dataset**: Histórico de consumo de 50 itens classe A/B/C.
+- **Planilha Modelo**: `LOG201_Calculadora_Reposicao.xlsx`.
+
+## Avaliação
+
+### Exercícios Práticos
+
+<Steps>
+
+1. Calcular ponto de reposição para 10 itens diferentes.
+
+2. Analisar gráficos de dente de serra e identificar anomalias.
+
+3. Propor política de estoque baseada em classificação ABC.
+
+</Steps>
+
+### Estudo de Caso
+Análise de ruptura real ocorrida em unidade da FAB:
+- Identificar causas raiz.
+- Propor mudanças no ponto de reposição.
+- Estimar custos evitados com nova política.
