@@ -4,12 +4,12 @@
     "index",
     "ppc",
     "sistema-de-codigos",
-    "...previsao-demanda",
-    "...compras-publicas",
-    "...doutrina",
-    "...estagio-e-seminarios",
-    "...ferramentas-operacionais",
-    "...gestao-da-cadeia",
-    "...planejamento-e-governanca"
+    "previsao-demanda",
+    "compras-publicas",
+    "doutrina",
+    "estagio-e-seminarios",
+    "ferramentas-operacionais",
+    "gestao-da-cadeia",
+    "planejamento-e-governanca"
   ]
 }

@@ -20,7 +20,10 @@ export const Route = createRootRoute({
 					"Plano de Aula do Curso Prático para Aspirantes a Oficial Intendentes da Força Aérea Brasileira.",
 			},
 		],
-		links: [{ rel: "stylesheet", href: appCss }],
+		links: [
+			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+			{ rel: "stylesheet", href: appCss },
+		],
 	}),
 	component: RootComponent,
 });

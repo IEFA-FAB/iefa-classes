@@ -43,7 +43,7 @@ const clientLoader = browserCollections.docs.createClientLoader({
 		{ markdownUrl: _markdownUrl, path: _path }: { markdownUrl: string; path: string },
 	) {
 		return (
-			<DocsPage toc={toc}>
+			<DocsPage toc={toc} tableOfContent={{ style: 'clerk' }}>
 				<DocsTitle>{frontmatter.title}</DocsTitle>
 				<DocsDescription>{frontmatter.description}</DocsDescription>
 				<DocsBody>
