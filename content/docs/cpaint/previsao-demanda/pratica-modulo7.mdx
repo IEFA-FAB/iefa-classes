@@ -1,0 +1,309 @@
+---
+title: "Prática — O Almoxarifado do Fim do Mundo"
+description: Atividade prática integradora do Módulo 7 — reconstituição de estoque, diagnóstico logístico e proposta de parâmetros de reposição.
+icon: Swords
+---
+
+<img
+  src="/modulo_7_pr%C3%A1tica/DOM_GAPFM.png"
+  alt="Distintivo de Organização Militar — Grupamento de Apoio do Fim do Mundo"
+  style={{display:'block',margin:'2rem auto 0.5rem',maxWidth:'180px'}}
+/>
+<p style={{textAlign:'center',fontStyle:'italic',color:'var(--fd-muted-foreground)',fontSize:'0.8rem',marginTop:0}}>
+  Distintivo de Organização Militar (DOM) — GAPFM
+</p>
+
+## O Contexto
+
+O **Coronel Aviador Davy Jones**, piloto do *Flying Dutchman* e comandante do **Grupamento de Apoio do Fim do Mundo**, acaba de lhe nomear chefe do almoxarifado.
+
+A situação é crítica: a unidade vem sofrendo **rupturas de estoque**, as equipes operacionais reclamam de indisponibilidade de material e ninguém consegue explicar com segurança se o problema está no consumo, no fornecedor, no lead time ou no próprio parâmetro de reposição.
+
+Ao assumir a função, você descobre que a documentação foi perdida em meio às tempestades do estreito. Restaram apenas duas bases de dados:
+
+1. **Histórico diário de estoque** de dois itens;
+2. **Histórico de pedidos ao fornecedor** desses mesmos itens.
+
+Você sabe que existem apenas **dois itens em análise**:
+
+- **Item 1 — must-have:** material crítico, cuja falta compromete a operação;
+- **Item 2 — need-to-have:** material importante, cuja falta degrada a eficiência, mas não interrompe imediatamente a missão.
+
+<Callout type="warn" title="Briefing do Coronel Jones">
+"Descubra por que estamos rompendo estoque, proponha novos parâmetros e me diga quanto custa manter esse nível de prontidão. **Falhe... e você fará parte da tripulação.**"
+</Callout>
+
+Seu trabalho é reconstruir a lógica do estoque a partir dos dados disponíveis e apresentar uma recomendação objetiva ao Coronel.
+
+---
+
+## Missão dos Discentes
+
+Com base **somente** nos arquivos de estoque e pedidos recebidos, cada grupo deverá executar as seis etapas abaixo.
+
+<Steps>
+
+### Etapa 1 — Reconstrução Operacional
+
+Para cada pedido registrado no histórico, identifique:
+
+- o que foi **pedido**;
+- o que foi **recebido corretamente**;
+- o que veio **a menos**.
+
+Em seguida, calcule o **lead time** de cada pedido e consolide, por item:
+
+- **média do lead time**;
+- **desvio padrão do lead time**.
+
+### Etapa 2 — Reconstrução do Consumo
+
+Usando o histórico diário de estoque, calcule o consumo diário por item pela relação:
+
+> **Consumo do dia = Estoque inicial + Entradas do dia − Estoque final**
+
+Para cada item, calcule:
+
+| Indicador | Descrição |
+|:--|:--|
+| Consumo médio diário | Média do consumo ao longo do período |
+| Desvio padrão do consumo | Dispersão em torno da média |
+| Dias com indício de ruptura | Dias em que o estoque chegou a zero |
+| Observações comportamentais | Padrões, anomalias e irregularidades identificadas |
+
+### Etapa 3 — Diagnóstico Logístico
+
+Os itens de cada cenário já foram classificados na seção [Cenários e Arquivos para Download](#cenários-e-arquivos-para-download). Com base nessa classificação, discuta:
+
+- O problema principal parece ser **subdimensionamento do estoque**, **variabilidade da demanda**, **variabilidade do lead time**, **entrega parcial do fornecedor** ou uma combinação desses fatores?
+- Qual item deve receber política mais conservadora e por quê?
+
+**Exigência:** apresente a causa raiz do problema usando **Diagrama de Ishikawa** ou **5 Porquês**. A análise deve ser sustentada pelos dados — não por suposição.
+
+### Etapa 4 — Proposta de Parâmetros
+
+Para cada item, proponha e justifique:
+
+| Parâmetro | O que é |
+|:--|:--|
+| **Nível de serviço desejado** | Probabilidade de não ruptura (ex.: 95%) e seu significado operacional |
+| **Estoque de Segurança (ES)** | Reserva contra variabilidade |
+| **Ponto de Ressuprimento (ROP)** | Nível de estoque que dispara o pedido |
+| **Ponto máximo esperado** | Estimativa do teto do estoque após recebimento |
+| **Justificativa do lote** | Raciocínio para o tamanho do pedido proposto |
+
+<Callout title="Fórmulas sugeridas">
+Quando demanda **e** lead time variam simultaneamente:
+
+**ES = Z × √( LT\_médio × σ²\_demanda + demanda\_média² × σ²\_LT )**
+
+**ROP = demanda\_média × LT\_médio + ES**
+
+**Ponto máximo esperado ≈ ROP + lote proposto**
+</Callout>
+
+### Etapa 5 — Custo da Prontidão
+
+Estime o **custo anual de manter o nível de estoque proposto**.
+
+Caso o professor não forneça outra convenção, use:
+
+> **Custo anual de posse ≈ estoque médio × custo unitário × taxa anual de posse**
+
+O **estoque médio** deve ser calculado a partir dos dados do período. A taxa anual de posse será informada pelo professor ou assumida pelo grupo.
+
+### Etapa 6 — Briefing ao Coronel
+
+Consolide tudo em um **briefing executivo de no máximo 10 minutos**, apresentado em uma **plataforma de BI** (Power BI, Looker Studio, Metabase ou equivalente), respondendo:
+
+1. O que está acontecendo com o almoxarifado?
+2. Qual é a causa raiz do problema (Ishikawa ou 5 Porquês)?
+3. Qual item representa maior risco à missão?
+4. Quanto estoque vocês recomendam manter?
+5. Quanto custa essa decisão?
+6. O que o Coronel ganha ao aceitar a proposta?
+
+<Callout type="warn" title="O Coronel não confia em quem não mostra os números">
+O Coronel Davy Jones já viu muita tripulação tentar passar a perna nele com análises inventadas. Para provar que os parâmetros propostos são legítimos e não um chute disfarçado de técnica, o briefing **deve expor os parâmetros estatísticos que embasam cada decisão**: média, mediana e desvio padrão — tanto do consumo quanto do lead time.
+
+Sem esses números na tela, o Coronel não aceita a proposta.
+</Callout>
+
+</Steps>
+
+---
+
+## Cenários e Arquivos para Download
+
+Cada grupo recebe **um cenário** com dois arquivos CSV: histórico de estoque e histórico de pedidos.
+
+<Callout type="info" title="Estrutura dos arquivos">
+Cada cenário possui dois itens (must-have e need-to-have). Os arquivos de **estoque** contêm o histórico diário; os de **pedidos** registram cada ordem de compra emitida e recebida.
+</Callout>
+
+### C1 — Hangar dos Confins
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | ETH-01 — Éter Hidráulico Grau Abissal |
+| 🟡 **Need-to-have** | LUM-02 — Luminária Náutica de Convés |
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C1_hangar_dos_confins_estoque.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Estoque
+  </a>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C1_hangar_dos_confins_pedidos.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-secondary)',color:'var(--fd-secondary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none',border:'1px solid var(--fd-border)'}}
+  >
+    ⬇ Pedidos
+  </a>
+</div>
+
+---
+
+### C2 — Arsenal do Cabo das Tempestades
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | VLV-11 — Válvula de Pressão dos Porões |
+| 🟡 **Need-to-have** | CAB-07 — Cabo Trançado de Sinalização |
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C2_arsenal_do_cabo_das_tempestades_estoque.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Estoque
+  </a>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C2_arsenal_do_cabo_das_tempestades_pedidos.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-secondary)',color:'var(--fd-secondary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none',border:'1px solid var(--fd-border)'}}
+  >
+    ⬇ Pedidos
+  </a>
+</div>
+
+---
+
+### C3 — Paiol do Estreito Sombrio
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | FLT-21 — Filtro de Névoa do Turboeixo |
+| 🟡 **Need-to-have** | JNT-05 — Junta de Vedação do Casco |
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C3_paiol_do_estreito_sombrio_estoque.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Estoque
+  </a>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C3_paiol_do_estreito_sombrio_pedidos.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-secondary)',color:'var(--fd-secondary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none',border:'1px solid var(--fd-border)'}}
+  >
+    ⬇ Pedidos
+  </a>
+</div>
+
+---
+
+### C4 — Base do Horizonte Negro
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | BMB-31 — Bomba Auxiliar de Refrigeração |
+| 🟡 **Need-to-have** | FUS-12 — Fusível Fotônico de Painel |
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C4_base_do_horizonte_negro_estoque.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Estoque
+  </a>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C4_base_do_horizonte_negro_pedidos.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-secondary)',color:'var(--fd-secondary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none',border:'1px solid var(--fd-border)'}}
+  >
+    ⬇ Pedidos
+  </a>
+</div>
+
+---
+
+### C5 — Doca do Mar sem Retorno
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | NAV-18 — Módulo de Navegação Inercial |
+| 🟡 **Need-to-have** | RVT-09 — Rebite Estrutural de Convés |
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C5_doca_do_mar_sem_retorno_estoque.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Estoque
+  </a>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C5_doca_do_mar_sem_retorno_pedidos.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-secondary)',color:'var(--fd-secondary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none',border:'1px solid var(--fd-border)'}}
+  >
+    ⬇ Pedidos
+  </a>
+</div>
+
+---
+
+### C6 — Torre do Farol Perdido
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | CRT-44 — Cartucho de Purga Criogênica |
+| 🟡 **Need-to-have** | SEL-03 — Selante para Compartimento Úmido |
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C6_torre_do_farol_perdido_estoque.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Estoque
+  </a>
+  <a
+    href="/modulo_7_pr%C3%A1tica/C6_torre_do_farol_perdido_pedidos.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-secondary)',color:'var(--fd-secondary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none',border:'1px solid var(--fd-border)'}}
+  >
+    ⬇ Pedidos
+  </a>
+</div>
+
+---
+
+## Critérios de Avaliação
+
+| Critério | O que se observa |
+|:--|:--|
+| **Correção dos cálculos** | Fórmulas aplicadas corretamente e sem inconsistências |
+| **Clareza na leitura dos dados** | Identificação correta de rupturas, entregas parciais e padrões |
+| **Coerência da política proposta** | Parâmetros compatíveis com o perfil de cada item |
+| **Relação entre custo e risco** | Trade-off explícito entre nível de serviço e custo de posse |
+| **Exposição dos parâmetros estatísticos** | Média, mediana e desvio padrão do consumo e do lead time visíveis no BI |
+| **Qualidade do briefing executivo** | Comunicação clara, objetiva e dentro do tempo |

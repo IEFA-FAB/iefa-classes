@@ -49,7 +49,7 @@ A trilha segue uma progressão lógica em **seis matérias**, organizadas em tr�
 
 <Steps>
 
-1. **EXL101 - Planilhas Eletrônicas para Negócios**
+1. **EXCL101 - Planilhas Eletrônicas para Negócios**
 
    **O que você aprende:** Domínio de Excel/Google Sheets, fórmulas essenciais (PROCV, SOMASE, Tabelas Dinâmicas), e **fundamentos de dados estruturados**.
    
@@ -67,13 +67,13 @@ A trilha segue uma progressão lógica em **seis matérias**, organizadas em tr�
 
 <Steps>
 
-3. **ANA201 - Análise de Dados**
+3. **DATA201 - Análise de Dados**
 
    **O que você aprende:** **Curva ABC (Pareto)** para priorização, análise de séries temporais, identificação de tendências e sazonalidade.
    
    **Por que é importante:** Antes de prever, você precisa **entender seus dados**. A Curva ABC ensina a focar nos itens críticos (20% que representam 80% do valor).
 
-4. **LOG201 - Gestão de Estoque e Cadeia**
+4. **LOGI201 - Gestão de Estoque e Cadeia**
 
    **O que você aprende:** **Ponto de reposição**, lote econômico de compra, estoque de segurança, curva dente de serra, e dinâmica da cadeia de suprimentos.
    
@@ -91,7 +91,7 @@ A trilha segue uma progressão lógica em **seis matérias**, organizadas em tr�
 
 <Steps>
 
-6. **OPT301 - Otimização de Rotas e Grafos**
+6. **ROUT301 - Otimização de Rotas e Grafos**
 
    **O que você aprende:** Teoria de grafos, algoritmo de Dijkstra, problema do caixeiro viajante, e otimização de rotas de distribuição.
    
@@ -102,7 +102,7 @@ A trilha segue uma progressão lógica em **seis matérias**, organizadas em tr�
 ---
 
 <Callout type="info" title="Lógica de Progressão">
-**EXL101** e **STAT101** fornecem as ferramentas e a base matemática → **ANA201** ensina a explorar e entender dados → **LOG201** e **FCST201** aplicam esses conhecimentos para gestão e previsão → **OPT301** otimiza as decisões de distribuição.
+**EXCL101** e **STAT101** fornecem as ferramentas e a base matemática → **DATA201** ensina a explorar e entender dados → **LOGI201** e **FCST201** aplicam esses conhecimentos para gestão e previsão → **ROUT301** otimiza as decisões de distribuição.
 
 Cada matéria constrói sobre as anteriores, formando uma trilha coesa de tomada de decisão baseada em dados.
 </Callout>
@@ -114,36 +114,36 @@ O diagrama abaixo mostra a sequência recomendada de estudo e os pré-requisitos
 ```mermaid
 flowchart TD
     %% Nível 100
-    EXL101["EXL101<br/>Excel e Dados"]
+    EXCL101["EXCL101<br/>Excel e Dados"]
     STAT101["STAT101<br/>Estatística Aplicada"]
     
     %% Nível 200
-    ANA201["ANA201<br/>Análise de Dados"]
-    LOG201["LOG201<br/>Gestão de Estoque"]
+    DATA201["DATA201<br/>Análise de Dados"]
+    LOGI201["LOGI201<br/>Gestão de Estoque"]
     FCST201["FCST201<br/>Métodos de Previsão"]
     
     %% Nível 300
-    OPT301["OPT301<br/>Otimização de Rotas"]
+    ROUT301["ROUT301<br/>Otimização de Rotas"]
     
     %% Pré-requisitos
-    STAT101 --> ANA201
-    EXL101 --> ANA201
+    STAT101 --> DATA201
+    EXCL101 --> DATA201
     
-    STAT101 --> LOG201
+    STAT101 --> LOGI201
     
     STAT101 --> FCST201
-    ANA201 --> FCST201
+    DATA201 --> FCST201
     
-    ANA201 --> OPT301
+    DATA201 --> ROUT301
     
     %% Estilo
     classDef nivel100 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
     classDef nivel200 fill:#fff3e0,stroke:#f57c00,stroke-width:2px
     classDef nivel300 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
     
-    class EXL101,STAT101 nivel100
-    class ANA201,LOG201,FCST201 nivel200
-    class OPT301 nivel300
+    class EXCL101,STAT101 nivel100
+    class DATA201,LOGI201,FCST201 nivel200
+    class ROUT301 nivel300
 ```
 
 ## Matérias da Trilha
@@ -151,20 +151,20 @@ flowchart TD
 ### Nível Introdutório (100)
 Fundamentos sem pré-requisitos matemáticos avançados.
 
-- **[EXL101 - Planilhas Eletrônicas para Negócios](/docs/cpaint/previsao-demanda/exl101)**: Domínio da ferramenta essencial e fundamentos de dados estruturados.
+- **[EXCL101 - Planilhas Eletrônicas para Negócios](/docs/cpaint/previsao-demanda/excl101)**: Domínio da ferramenta essencial e fundamentos de dados estruturados.
 - **[STAT101 - Estatística Aplicada](/docs/cpaint/previsao-demanda/stat101)**: A base matemática necessária para entender incertezas e tendências.
 
 ### Nível Intermediário (200)
 Aplicação prática dos fundamentos. Requer conclusão de matérias do nível 100.
 
-- **[ANA201 - Análise de Dados](/docs/cpaint/previsao-demanda/ana201)**: Transformando dados em informações úteis para decisão (Curva ABC, séries temporais).
-- **[LOG201 - Gestão de Estoque e Cadeia](/docs/cpaint/previsao-demanda/log201)**: Ponto de reposição, dente de serra, curva de suprimento.
+- **[DATA201 - Análise de Dados](/docs/cpaint/previsao-demanda/data201)**: Transformando dados em informações úteis para decisão (Curva ABC, séries temporais).
+- **[LOGI201 - Gestão de Estoque e Cadeia](/docs/cpaint/previsao-demanda/logi201)**: Ponto de reposição, dente de serra, curva de suprimento.
 - **[FCST201 - Métodos de Previsão](/docs/cpaint/previsao-demanda/fcst201)**: Aplicação de modelos como Média Móvel, Suavização Exponencial e Regressão.
 
 ### Nível Avançado (300)
 Otimização e técnicas analíticas avançadas. Requer conclusão de matérias do nível 200.
 
-- **[OPT301 - Otimização de Rotas e Grafos](/docs/cpaint/previsao-demanda/opt301)**: Teoria de grafos aplicada e otimização de rotas de distribuição.
+- **[ROUT301 - Otimização de Rotas e Grafos](/docs/cpaint/previsao-demanda/rout301)**: Teoria de grafos aplicada e otimização de rotas de distribuição.
 
 ## Referências Bibliográficas
 
@@ -174,8 +174,8 @@ Otimização e técnicas analíticas avançadas. Requer conclusão de matérias 
 
 <Callout>
 **Capítulos relevantes do Cormen:**
-- **Capítulo 22**: Algoritmos Elementares em Grafos (base para OPT301)
-- **Capítulo 24**: Caminhos Mínimos de Fonte Única (Dijkstra em OPT301)
+- **Capítulo 22**: Algoritmos Elementares em Grafos (base para ROUT301)
+- **Capítulo 24**: Caminhos Mínimos de Fonte Única (Dijkstra em ROUT301)
 - **Capítulo 6**: Heapsort e Filas de Prioridade (otimização em geral)
 - **Apêndice A**: Fundamentos matemáticos (estatística em STAT101)
 </Callout>
