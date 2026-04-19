@@ -26,16 +26,78 @@ Ao final desta matéria, o aluno deverá ser capaz de:
 
 </Steps>
 
+## Cobertura no Cronograma
+
+| Módulo | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [Módulo 2](./cronograma) | Medidas de Tendência Central (Média, Mediana) | Teoria+Prática |
+| [Módulo 3](./cronograma) | Dispersão (Desvio Padrão) e Distribuição Normal | Teoria |
+| [Módulo 4](./cronograma) | Outliers e Hipótese Nula (Intuição) | Teoria |
+| [Módulo 5](./cronograma) | Correlação e Causalidade | Teoria |
+
 ## Tópicos Abordados
 
--   **Medidas de Tendência Central**: Onde os dados se concentram.
--   **Medidas de Dispersão**: O quão confiáveis (ou variáveis) são seus dados.
--   **Distribuições de Probabilidade**: Introdução à Curva de Gauss (Normal).
--   **Correlação**: Entendendo a relação entre variáveis (ex: Clima x Consumo de Água).
--   **Intuição de Teste de Hipótese**: O que significa "estatisticamente significativo" para um gestor? Interpretação de valor-p sem formalismo matemático.
+### Medidas de Tendência Central
+
+Onde os dados se concentram — o "centro de gravidade" da série.
+
+- **Média**: Soma dividida pela quantidade. Sensível a valores extremos.
+- **Mediana**: Valor central ao ordenar a série. Robusta contra outliers.
+- **Quando usar cada uma**: Média para distribuições simétricas; mediana quando há outliers ou distribuição assimétrica (ex.: consumo de peças de reposição rara).
+
+> **Aplicação direta**: ao calcular a demanda média para o Ponto de Reposição, um único mês atípico (operação especial) pode distorcer a média — use a mediana nesses casos.
+
+### Medidas de Dispersão
+
+O quão confiáveis (ou variáveis) são seus dados.
+
+- **Variância**: Média dos quadrados dos desvios. Útil para cálculos internos.
+- **Desvio Padrão (σ)**: Raiz da variância. Mesma unidade dos dados — o mais usado na prática.
+- **Coeficiente de Variação (CV)**: `σ / Média`. Permite comparar a variabilidade de itens com escalas diferentes.
+
+> **Aplicação direta**: o desvio padrão da demanda é o insumo central do cálculo de Estoque de Segurança em [LOGI201](./logi201).
+
+### Distribuição Normal (Curva de Gauss)
+
+- **Intuição**: A maioria dos fenômenos naturais e de demanda se concentra em torno da média, com ocorrências extremas cada vez mais raras.
+- **Regra 68-95-99,7**: ~68% dos valores estão a ±1σ da média; ~95% a ±2σ; ~99,7% a ±3σ.
+- **Fator Z**: Multiplicador do desvio padrão para diferentes níveis de serviço (ex.: Z=1,65 para 95%; Z=2,05 para 98%).
+
+<Callout type="info" title="Conexão com Estoque de Segurança">
+O Fator Z é o elo entre estatística e logística: `ES = Z × σ_demanda × √Lead Time`. Quem entende a Normal sabe **o que está pagando** ao escolher 95% vs. 99% de nível de serviço.
+</Callout>
+
+### Outliers e Hipótese Nula
+
+- **Outlier**: Valor anormalmente distante da média (regra prática: além de ±2σ ou ±3σ).
+- **Causas comuns na logística**: Operações especiais, erros de lançamento, sazonalidade não modelada.
+- **Hipótese Nula (intuição)**: "Não existe efeito / diferença" — é o estado que queremos refutar com evidência.
+- **Valor-p para gestores**: Probabilidade de observar o resultado caso a hipótese nula seja verdadeira. Valor-p < 0,05 → evidência suficiente para rejeitar o "não há diferença".
+
+### Correlação e Causalidade
+
+- **Correlação (r)**: Mede a força e a direção da relação linear entre duas variáveis. Varia de -1 a +1.
+- **Correlação ≠ Causalidade**: Sorvete e afogamento são correlacionados (calor causa os dois). Antes de modelar, questione o mecanismo causal.
+- **Aplicação em previsão**: Identificar variáveis externas (temperatura, sazonalidade, eventos) que explicam variações da demanda.
 
 ## Materiais de Consulta
 
 -   **WHEELAN, Charles. *Estatística: O que é, para que serve, como funciona*.** Zahar, 2016. (Leitura excelente para intuição).
 -   **ANDERSON, David R. et al. *Estatística Aplicada a Administração e Economia*.** Cengage, 2019. (Livro texto base).
 -   Dataset de exemplo: Dados simulados de consumo de gêneros alimentícios.
+
+## Avaliação
+
+### Exercícios Práticos
+
+<Steps>
+
+1. Calcular média e mediana de uma série com outlier e comparar o impacto em cada medida.
+
+2. Dado um desvio padrão e um nível de serviço, encontrar o fator Z e calcular o Estoque de Segurança.
+
+3. Classificar um outlier em uma série de demanda e propor tratamento (exclusão ou substituição pela mediana).
+
+4. Interpretar o coeficiente de correlação entre temperatura e consumo de um insumo.
+
+</Steps>

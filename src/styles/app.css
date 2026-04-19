@@ -16,6 +16,26 @@ html > body[data-scroll-locked] {
 }
 
 /* ================================================ */
+/* Layout — sticky sidebar fix                       */
+/* ================================================ */
+
+/*
+ * Problema: o grid do fumadocs usa min-height:100dvh + linha 1fr.
+ * Alguns browsers resolvem 1fr contra o min-height, fixando o grid
+ * em 100dvh. Quando o conteúdo ultrapassa 100dvh (ex: página com
+ * diagrama mermaid), o grid NÃO cresce — o conteúdo estoura visualmente
+ * mas o containing block das sidebars sticky continua sendo 100dvh.
+ * Resultado: sidebars scrollam junto com o conteúdo overflow.
+ *
+ * Fix: height:max-content força o grid a usar a altura real do conteúdo.
+ * O min-height:100dvh do fumadocs permanece como piso (telas vazias
+ * continuam preenchendo a viewport).
+ */
+#nd-docs-layout {
+	height: max-content;
+}
+
+/* ================================================ */
 /* Schedule Container — tabelas de cronograma       */
 /* ================================================ */
 
@@ -119,6 +139,8 @@ html > body[data-scroll-locked] {
 	overflow-x: auto !important;
 	width: 100% !important;
 	display: block !important;
+	/* Permite scroll vertical da página mesmo quando o dedo toca no diagrama (iOS) */
+	touch-action: pan-y;
 }
 
 .mermaid svg {
@@ -177,22 +199,22 @@ html > body[data-scroll-locked] {
 /* ================================================ */
 
 /* Nível 100 — azul */
-nav a[href*="exl101"],
+nav a[href*="excl101"],
 nav a[href*="stat101"] {
 	border-left: 3px solid #1976d2 !important;
 	padding-left: 0.625rem !important;
 }
 
 /* Nível 200 — laranja */
-nav a[href*="ana201"],
+nav a[href*="data201"],
 nav a[href*="fcst201"],
-nav a[href*="log201"] {
+nav a[href*="logi201"] {
 	border-left: 3px solid #f57c00 !important;
 	padding-left: 0.625rem !important;
 }
 
 /* Nível 300 — roxo */
-nav a[href*="opt301"] {
+nav a[href*="rout301"] {
 	border-left: 3px solid #7b1fa2 !important;
 	padding-left: 0.625rem !important;
 }
@@ -212,7 +234,10 @@ nav a[href*="opt301"] {
 		overflow-x: auto !important;
 	}
 
+	/* SVGs escalam para caber na tela; overflow-x:auto cuida do scroll horizontal */
 	.mermaid svg {
-		min-width: 900px;
+		min-width: unset;
+		width: 100% !important;
+		height: auto !important;
 	}
 }

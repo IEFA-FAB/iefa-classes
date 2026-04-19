@@ -32,21 +32,121 @@ Ao final desta matéria, o aluno deverá ser capaz de:
 
 </Steps>
 
+## Cobertura no Cronograma
+
+| Módulo | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [Módulo 2](./cronograma) | O método de Médias Móveis Simples | Teoria+Prática |
+| [Módulo 5](./cronograma) | Erro de Previsão vs. Ruptura de Estoque | Teoria+Prática |
+| [Módulo 5](./cronograma) | Ajustando previsões para Sazonalidade | Prática |
+| [Módulo 10](./cronograma) | Limitações da Média Móvel; Média Móvel Ponderada | Teoria+Prática |
+| [Módulo 10](./cronograma) | Definindo pesos para dados recentes | Prática |
+| [Módulo 11](./cronograma) | Suavização Exponencial Simples (SES) | Teoria+Prática |
+| [Módulo 11](./cronograma) | O parâmetro Alpha | Prática |
+| [Módulo 12](./cronograma) | Métricas de Erro (MAD, MSE, MAPE) | Teoria |
+| [Módulo 12](./cronograma) | Viés (Bias) de Previsão | Teoria |
+
 ## Tópicos Abordados
 
--   **Horizonte de Previsão**: Curto vs. Longo prazo.
--   **Modelos Ingênuos**: Último valor, Média histórica.
--   **Suavização Exponencial**: Dando peso diferente aos dados recentes.
--   **Acuracidade**: Como medir se sua previsão foi boa e como melhorar.
--   **Vieses**: Identificando se sua previsão é otimista ou pessimista demais.
--   **Viés vs. Acuracidade**: Uma previsão pode ser precisa mas consistentemente enviesada (ex: sempre subestimando, causando rupturas).
--   **Overfitting e Validação de Modelos**:
-    -   O perigo de "encaixar perfeitamente" nos dados históricos.
-    -   Separação de dados em **conjuntos de treino e teste**.
-    -   Validação: testar se o modelo funciona em dados não vistos.
-    -   Conceito: Passado perfeito ≠ Futuro garantido.
+### Horizonte de Previsão
+
+- **Curto prazo** (dias a semanas): Operacional — reposição de estoque, programação de produção.
+- **Médio prazo** (meses): Tático — orçamento de suprimentos, planejamento de contratos.
+- **Longo prazo** (anos): Estratégico — capacidade de armazém, negociação de acordos.
+
+> **Regra prática**: quanto maior o horizonte, menor a acurácia esperada — projete a incerteza junto com a previsão.
+
+### Médias Móveis Simples (MMS)
+
+- **Conceito**: Média dos últimos *n* períodos, deslizando a cada novo dado.
+- **Parâmetro *n***: Janela de tempo. Valor grande → previsão suave, reage lentamente. Valor pequeno → reage rápido, mas com mais ruído.
+- **Limitação principal**: Todos os períodos têm o mesmo peso — não distingue dados recentes de dados antigos.
+- **Fórmula**: `Previsão(t+1) = [D(t) + D(t-1) + ... + D(t-n+1)] / n`
+
+### Médias Móveis Ponderadas (MMP)
+
+- **Conceito**: Igual à MMS, mas com pesos diferentes para cada período — dados mais recentes recebem peso maior.
+- **Vantagem**: Mais responsiva a mudanças de tendência que a MMS.
+- **Desafio**: Escolher os pesos otimamente. O Excel Solver pode automatizar isso.
+- **Fórmula**: `Previsão(t+1) = w₁·D(t) + w₂·D(t-1) + ... + wₙ·D(t-n+1)` onde `Σwᵢ = 1`
+
+### Suavização Exponencial Simples (SES)
+
+- **Conceito**: Caso especial de MMP onde os pesos decaem exponencialmente. Dados mais antigos recebem peso cada vez menor, sem nunca chegarem a zero.
+- **Parâmetro Alpha (α)**: Entre 0 e 1. Controla a velocidade de esquecimento.
+  - α próximo de 1 → quase igual ao último valor observado (reativo).
+  - α próximo de 0 → média histórica pesada (estável, pouco reativa).
+- **Fórmula**: `F(t+1) = α · D(t) + (1 - α) · F(t)`
+- **Otimização de α**: Usar Excel Solver para minimizar o erro histórico (MAD ou MSE).
+
+<Callout type="info" title="SES vs. MMS">
+SES usa **todos** os dados históricos (com peso decrescente); MMS usa apenas os últimos *n* períodos com peso igual. Para a maioria dos itens de suprimento, SES é superior.
+</Callout>
+
+### Sazonalidade
+
+- **Definição**: Padrão que se repete em ciclos regulares (anual, mensal, semanal).
+- **Índice Sazonal**: Razão entre a demanda do período e a média do ano. Índice > 1 = acima da média; < 1 = abaixo.
+- **Ajuste**: `Previsão ajustada = Previsão base × Índice Sazonal do período`
+- **Conexão**: A decomposição de séries temporais (ensinada em [DATA201](./data201)) é o passo anterior à construção dos índices.
+
+### Métricas de Erro
+
+| Métrica | Fórmula | Interpretação |
+| :------ | :------- | :------------ |
+| **MAD** (Erro Médio Absoluto) | `Σ|Real - Prev| / n` | Unidade original. Fácil de explicar. |
+| **MSE** (Erro Quadrático Médio) | `Σ(Real - Prev)² / n` | Penaliza erros grandes. Usado na otimização. |
+| **MAPE** (Erro Percentual Médio Absoluto) | `Σ|Real - Prev| / Real × 100 / n` | Em %. Permite comparar itens de escalas diferentes. |
+
+> **MAPE < 10%** é considerado excelente na maioria dos contextos de suprimento.
+
+### Viés (Bias) de Previsão
+
+- **Definição**: Erro sistemático — o modelo consistentemente superestima ou subestima.
+- **Fórmula**: `Viés = Σ(Real - Previsão) / n`. Positivo = subestimando. Negativo = superestimando.
+- **Consequência do viés positivo**: rupturas recorrentes.
+- **Consequência do viés negativo**: excesso de estoque e capital parado.
+
+### Erro de Previsão vs. Ruptura de Estoque
+
+- Previsão imprecisa → Estoque de Segurança subdimensionado → ruptura.
+- A relação é direta: `ES = Z × σ_erro_previsão × √Lead Time`.
+- Reduzir o erro de previsão (MAPE) permite reduzir o ES sem aumentar o risco.
+
+### Overfitting e Validação
+
+-   O perigo de "encaixar perfeitamente" nos dados históricos.
+-   Separação de dados em **conjuntos de treino e teste**.
+-   Validação: testar se o modelo funciona em dados não vistos.
+-   Conceito: Passado perfeito ≠ Futuro garantido.
+
+-   **Modelos Ingênuos**: Último valor, Média histórica — úteis como linha de base para comparação.
+-   **Horizontes de Previsão**: Curto vs. Longo prazo.
+
+## Ferramentas Práticas
+
+### Excel
+- **Fórmulas**: `MÉDIA`, `DESVPAD`, `SOMARPRODUTO` para MMP.
+- **Solver**: Minimizar MAD ou MSE variando `n` (MMS/MMP) ou `α` (SES).
+- **Competição de previsão** (Módulo 10): comparar MMS vs. MMP em dataset real.
 
 ## Materiais de Consulta
 
 -   Livro: "Business Forecasting" - Hanke & Wichern.
 -   Ferramenta: Solver do Excel para otimização de parâmetros.
+
+## Avaliação
+
+### Exercícios Práticos
+
+<Steps>
+
+1. Calcular MMS com n=3 e n=6 para uma série de 12 meses. Comparar MAD de cada janela.
+
+2. Implementar SES com α=0,2 e α=0,8 em Excel. Usar Solver para encontrar o α ótimo.
+
+3. Dado um MAPE de 15%, estimar o impacto no Estoque de Segurança vs. um modelo com MAPE de 8%.
+
+4. Diagnosticar viés em um modelo: identificar se as rupturas do semestre têm causa estatística ou conjuntural.
+
+</Steps>

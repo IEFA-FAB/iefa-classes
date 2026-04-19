@@ -26,16 +26,122 @@ Ao final desta matéria, o aluno deverá ser capaz de:
 
 </Steps>
 
+## Cobertura no Cronograma
+
+| Módulo | Tópico | Tipo |
+| :------ | :---------------------------------------- | :--- |
+| [Módulo 1](./cronograma) | Qualidade de Dados | Teoria |
+| [Módulo 1](./cronograma) | Estruturação de Banco de Dados | Teoria |
+| [Módulo 1](./cronograma) | Normalização 1NF e 2NF | Teoria+Prática |
+| [Módulo 4](./cronograma) | EDA — Identificando anomalias na demanda | Prática |
+| [Módulo 5](./cronograma) | Decomposição de Séries (Tendência/Sazonalidade) | Teoria |
+| [Módulo 5](./cronograma) | Princípio de Pareto (80/20) | Teoria |
+| [Módulo 5](./cronograma) | Curva ABC para Gestão de Estoque | Prática |
+| [Módulo 6](./cronograma) | Visualização de Dados Eficiente | Teoria |
+| [Módulo 6](./cronograma) | Data Storytelling para Gestores | Prática |
+| [Módulo 9](./cronograma) | Dashboard de KPIs de Estoque | Prática |
+
 ## Tópicos Abordados
 
--   **Análise Exploratória**: O primeiro passo antes de qualquer previsão.
--   **Curva ABC (Pareto)**: Gestão de estoque baseada em valor e volume.
--   **Decomposição de Séries Temporais**: Entendendo o comportamento do consumo ao longo do tempo.
--   **Visualização de Dados**: Escolhendo o gráfico certo para a mensagem certa.
--   **Data Storytelling**: Como estruturar uma narrativa baseada em dados (Pyramid Principle aplicado).
+### Qualidade de Dados
+
+Base de tudo: dados ruins geram decisões ruins.
+
+- **Tipos de problema**: Valores ausentes, duplicatas, erros de digitação, unidades inconsistentes.
+- **Regra "Garbage In, Garbage Out"**: Nenhum modelo corrige dados corrompidos na origem.
+- **Processos de limpeza**: Padronização de formatos, detecção de duplicatas, imputação de valores ausentes.
+
+### Estruturação de Banco de Dados
+
+- **Dados estruturados vs. não estruturados**: Tabelas com colunas definidas vs. documentos, e-mails, imagens.
+- **Tabela bem estruturada**: Cada coluna é um atributo; cada linha é um registro único.
+- **Chave primária**: Identificador único de cada registro (ex.: código CATMAT do item).
+- **Chave estrangeira**: Campo que referencia outra tabela (ex.: código da unidade no registro de consumo).
+
+### Normalização (1NF e 2NF)
+
+- **1ª Forma Normal (1NF)**: Cada célula contém um único valor atômico. Sem listas dentro de células, sem colunas repetidas.
+- **2ª Forma Normal (2NF)**: Todo atributo não-chave depende da chave inteira — elimina dependências parciais.
+- **Por que importa**: Normalização evita anomalias de atualização, inserção e exclusão que corrompem históricos de consumo.
+
+<Callout type="info" title="Conexão com Excel">
+As regras de normalização explicam por que a planilha-modelo com dados misturados (ex.: nome do fornecedor junto com o pedido) gera problemas ao fazer `PROCV` — viola a 2NF.
+</Callout>
+
+### Análise Exploratória de Dados (EDA)
+
+O primeiro passo antes de qualquer previsão.
+
+- **Estatísticas descritivas**: Média, mediana, desvio padrão, mínimo/máximo de cada item.
+- **Identificação de anomalias**: Picos de consumo (operações especiais), vales (ruptura de estoque mascarando demanda real), outliers.
+- **Gráficos de linha**: Evolução temporal do consumo — identifica tendências e sazonalidade visualmente.
+- **Histogramas**: Distribuição da demanda — confirma se a hipótese de normalidade é razoável.
+- **Box plots**: Comparação rápida entre múltiplos itens ou períodos.
+
+### Curva ABC (Princípio de Pareto / 80-20)
+
+- **Premissa**: ~20% dos itens respondem por ~80% do valor consumido.
+- **Classificação**:
+  - **Classe A**: Alto valor. Controle rigoroso, revisão frequente, ES conservador.
+  - **Classe B**: Valor médio. Controle moderado.
+  - **Classe C**: Baixo valor. Controle simplificado, pedidos menos frequentes, maior ES relativo.
+- **Construção no Excel** (Módulo 5): Ordenar por valor decrescente → calcular % acumulado → classificar.
+- **Impacto na gestão**: Itens A exigem parâmetros de reposição precisos; itens C podem ser geridos com regras simples.
+
+### Decomposição de Séries Temporais
+
+Uma série de demanda tem quatro componentes:
+
+| Componente | Descrição | Exemplo |
+| :--------- | :-------- | :------ |
+| **Tendência** | Movimento de longo prazo (crescimento/queda) | Aumento de consumo por ampliação da frota |
+| **Sazonalidade** | Padrão que se repete em ciclo fixo | Pico de consumo de uniformes em março |
+| **Ciclicidade** | Oscilações de longo prazo sem período fixo | Ciclos orçamentários |
+| **Resíduo** | Variação aleatória não explicada | Eventos imprevistos |
+
+- **Por que decompor**: Previsões mais precisas ao modelar cada componente separadamente.
+- **Índice Sazonal**: Calculado pela razão entre o valor do período e a média do ano.
+
+### Visualização de Dados Eficiente
+
+- **Gráfico de linha**: Séries temporais e tendências.
+- **Gráfico de barras**: Comparação entre categorias (itens, unidades, períodos).
+- **Gráfico de dispersão**: Correlação entre duas variáveis.
+- **Mapa de calor**: Matriz de correlação ou consumo por período × item.
+- **Regra**: Um gráfico, uma mensagem. Evite decoração que não comunica.
+
+### Data Storytelling para Gestores
+
+- **Pyramid Principle**: Comece pela conclusão (resposta ao decisor), depois apresente os argumentos e dados de suporte.
+- **Estrutura SCAR**: Situação → Complicação → Análise → Recomendação.
+- **Erros comuns**: Apresentar dados sem conclusão, usar jargão técnico com o tomador de decisão, excesso de gráficos.
+
+### Dashboard de KPIs de Estoque
+
+- **KPIs essenciais**: Giro de estoque, cobertura em dias, acuracidade de inventário, % de rupturas.
+- **Boas práticas de dashboard**: Hierarquia visual clara, semáforo (vermelho/amarelo/verde), atualização automática via tabela dinâmica.
+- **Conexão com LOGI201**: Os KPIs são calculados em [LOGI201](./logi201) e visualizados aqui.
 
 ## Materiais de Consulta
 
 -   **PROVOST, Foster; FAWCETT, Tom. *Data Science para Negócios*.** Alta Books, 2016. (Fundamental para entender como dados geram valor).
 -   Artigo: "The Pyramid Principle" (comunicação de dados).
 -   Dataset: Histórico de 5 anos de licitações.
+
+## Avaliação
+
+### Exercícios Práticos
+
+<Steps>
+
+1. Receber um dataset bruto com erros e aplicar o processo completo de limpeza (EDA → identificação → correção).
+
+2. Construir a Curva ABC de um catálogo de 50 itens e propor política diferenciada por classe.
+
+3. Decompor uma série de 24 meses: identificar tendência e sazonalidade, calcular índices sazonais.
+
+4. Criar um dashboard de KPIs de estoque em Excel com formatação condicional e semáforo.
+
+5. Apresentar os resultados da Curva ABC em formato executivo (Pyramid Principle, 5 minutos).
+
+</Steps>
