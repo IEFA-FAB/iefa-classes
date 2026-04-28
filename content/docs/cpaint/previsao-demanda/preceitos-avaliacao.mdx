@@ -1,0 +1,213 @@
+---
+title: Preceitos de Avaliação
+description: Políticas e princípios que regem a estrutura, correção e filosofia da prova de Previsão de Demanda e Logística Operacional.
+icon: Scale
+---
+
+A prova de **Previsão de Demanda e Logística Operacional** foi estruturada para avaliar **competência operacional real**, não memorização. Todo o desenho da avaliação segue doze preceitos organizados em quatro grupos.
+
+<Callout title="O que a prova mede">
+A prova não mede quanto o aluno decorou. Ela mede **o quão capaz ele é de operar um sistema logístico sob incerteza** — interpretar dados, modelar problemas e tomar decisões.
+</Callout>
+
+---
+
+## Filosofia — O que a prova mede
+
+### 1. Avaliação por Competência
+
+O foco está no **processo de raciocínio**, não apenas no resultado numérico.
+
+A prova mede a capacidade de:
+
+- Interpretar dados operacionais
+- Modelar problemas logísticos
+- Tomar decisões fundamentadas em evidência
+
+> **Resultado numérico correto com processo errado vale menos que resultado próximo com raciocínio coerente.**
+
+### 2. Avaliação Multidimensional
+
+A prova avalia quatro dimensões cognitivas distintas:
+
+| Dimensão | O que avalia | Formato típico |
+|:--|:--|:--|
+| **Execução** | Cálculos (média, desvio padrão, ROP, EOQ) | Resposta numérica com planilha |
+| **Compreensão** | Entendimento conceitual | Múltipla escolha, V/F |
+| **Relação** | Conexão entre conceitos | Associação |
+| **Aplicação** | Interpretação de cenários e impacto de variáveis | Múltipla escolha contextualizada |
+
+### 3. Aplicação Operacional
+
+Todos os conteúdos avaliados possuem **aplicação direta em contexto logístico real**.
+
+| Conteúdo | Aplicação operacional |
+|:--|:--|
+| Previsão de demanda | Planejamento de aquisições e contratos |
+| Variabilidade e risco | Dimensionamento de estoque de segurança |
+| ROP | Decisão de quando disparar o pedido |
+| EOQ | Decisão de quanto pedir por vez |
+| Nível de serviço | Trade-off entre custo de manter estoque e risco de ruptura |
+
+> Nenhuma questão avalia conceito puramente teórico sem conexão com decisão logística.
+
+---
+
+## Estrutura — Como a prova é organizada
+
+### 4. Contextualização Operacional
+
+A prova utiliza um **cenário único narrativo** — todas as questões se passam dentro de uma mesma situação operacional.
+
+- Simular ambiente real de tomada de decisão
+- Aumentar engajamento e coerência entre questões
+- Evitar questões desconexas que fragmentam o raciocínio
+
+> Formato semelhante ao da [Prática do Módulo 7](./pratica-modulo7), onde um cenário contextualiza todas as etapas.
+
+### 5. Estrutura Modular
+
+A prova é dividida em **blocos independentes**, cada um ligado a um conjunto de competências.
+
+<Steps>
+
+1. **Demanda** — Cálculo e interpretação de demanda média e variabilidade.
+
+2. **Variabilidade** — Desvio padrão, coeficiente de variação e impacto no estoque.
+
+3. **ROP** — Ponto de Reposição considerando lead time e estoque de segurança.
+
+4. **Nível de Serviço** — Trade-off entre custo e risco, fator Z.
+
+5. **EOQ** — Lote Econômico de Compra e otimização de custos.
+
+6. **Integração** — Visão sistêmica conectando todos os blocos anteriores.
+
+</Steps>
+
+> Cada bloco funciona como uma avaliação autônoma. Erro no Bloco 1 não compromete o Bloco 3.
+
+### 6. Integração Sistêmica
+
+Apesar de os blocos serem corrigidos de forma independente, a prova avalia a **integração dos conceitos em um sistema logístico coerente**. O bloco final (Integração) exige que o aluno conecte as peças.
+
+```
+Variabilidade da demanda
+    → Estoque de Segurança (ES = Z × σ)
+        → Nível de Serviço define Z
+            → ROP = demanda no lead time + ES
+                → EOQ define a política de compra
+```
+
+<Callout type="info" title="Conexão com a trilha">
+Essa cadeia reflete a progressão das matérias [STAT101](./stat101) → [LOGI201](./logi201) → [FCST201](./fcst201). A prova exige que o aluno demonstre essa visão integrada.
+</Callout>
+
+---
+
+## Justiça — Como se garante avaliação justa
+
+### 7. Não Propagação de Erro
+
+Erros em etapas iniciais **não impactam negativamente etapas posteriores**.
+
+Cada questão que depende de um resultado anterior **recebe seus próprios dados de entrada**, independentes da questão precedente. A continuidade dos dados entre questões é **intencionalmente quebrada** para que cada item seja autossuficiente.
+
+| Situação | O que acontece |
+|:--|:--|
+| Questão A | Aluno calcula o desvio padrão a partir de uma série fornecida |
+| Questão B | O enunciado fornece um **outro** desvio padrão como dado de entrada — não o resultado da Questão A |
+| Resultado | Questão B é avaliável independente do acerto em A |
+
+> O aluno não precisa acertar A para ter chance em B. Os dados de entrada de cada questão são **autocontidos**.
+
+<Callout type="warn" title="Não é gabarito — são dados novos">
+A prova **não revela a resposta correta** da etapa anterior. Ela fornece **valores independentes** para a próxima etapa. Isso quebra a continuidade numérica entre questões, mas garante que cada questão avalie exclusivamente a competência que se propõe a medir.
+</Callout>
+
+- Evitar "efeito cascata" — um erro no cálculo de desvio padrão não destrói a nota de ROP, EOQ e estoque de segurança
+- Permitir avaliação justa de cada competência **isoladamente**
+- Garantir que o aluno continue demonstrando conhecimento mesmo após um erro inicial
+
+<Callout type="info" title="Conexão com a estrutura modular">
+Esse princípio é operacionalizado pelos blocos independentes descritos no [Preceito 5](#5-estrutura-modular). Cada bloco possui seus próprios dados de entrada.
+</Callout>
+
+### 8. Avaliação Aditiva
+
+Cada questão ou bloco é avaliado de forma **independente e somatória**.
+
+- O aluno **ganha pontos por acertos** — não perde por erros anteriores
+- Não há "travamento" da prova
+- Permite distinguir melhor níveis de desempenho entre alunos
+
+> O modelo é aditivo: cada competência demonstrada **soma** à nota final.
+
+### 9. Redução de Viés de Nota
+
+A prova não depende exclusivamente de distribuição linear de acertos.
+
+- Questões com **diferentes níveis de dificuldade** dentro de cada bloco
+- Curva de nota não linear aplicada posteriormente
+
+Permite questões mais desafiadoras sem punir a turma e melhora a discriminação entre níveis de desempenho — distinguir quem domina de quem apenas reproduz.
+
+---
+
+## Rigor — Padrões técnicos de formato e correção
+
+### 10. Objetividade
+
+#### Tipos de questões permitidos
+
+| Tipo | Exemplo |
+|:--|:--|
+| **Múltipla escolha** | Qual método de previsão é mais adequado para demanda com tendência? |
+| **Verdadeiro/Falso** | "Aumentar o nível de serviço sempre reduz o custo total." |
+| **Associação** | Relacionar conceito → aplicação operacional |
+| **Resposta numérica** | Calcule o ROP dado os parâmetros fornecidos |
+
+#### Tipos de questões **não** permitidos
+
+- Questões abertas subjetivas
+- Respostas interpretativas longas
+- Avaliação baseada em opinião
+
+<Callout type="warn" title="Por que apenas formatos objetivos?">
+Eliminar subjetividade na correção, permitir padronização entre turmas e garantir auditabilidade total do gabarito.
+</Callout>
+
+### 11. Rastreabilidade do Raciocínio
+
+Questões de cálculo exigem **evidência do processo**, não apenas o resultado final.
+
+- Envio obrigatório de **planilha** com os cálculos
+- Avaliação parcial baseada em:
+
+| Critério | O que se observa |
+|:--|:--|
+| Estrutura do cálculo | Células organizadas com rótulos claros |
+| Organização lógica | Sequência coerente de etapas |
+| Uso correto de fórmulas | Fórmulas compatíveis com o problema proposto |
+
+> Validar o raciocínio, não apenas o resultado. Distinguir erros conceituais de erros operacionais (digitação, referência de célula).
+
+### 12. Precisão das Respostas
+
+Respostas numéricas seguem **formato padronizado** definido no enunciado.
+
+- Número de casas decimais especificado por questão
+- Unidade de medida explicitada
+- Sem necessidade de justificativa em texto livre (a planilha cumpre esse papel)
+- Resultado objetivo e verificável contra gabarito
+
+---
+
+## Síntese
+
+| Grupo | Preceitos | Pergunta que responde |
+|:--|:--|:--|
+| **Filosofia** | Competência, Multidimensional, Aplicação Operacional | *O que a prova mede?* |
+| **Estrutura** | Contextualização, Modular, Integração Sistêmica | *Como a prova é organizada?* |
+| **Justiça** | Não Propagação, Aditiva, Redução de Viés | *Como se garante avaliação justa?* |
+| **Rigor** | Objetividade, Rastreabilidade, Precisão | *Quais são os padrões técnicos?* |
