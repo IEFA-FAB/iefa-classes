@@ -1,0 +1,156 @@
+---
+title: "Prática — Operação: Ordem do Império"
+description: Atividade prática integradora dos Módulos 10 e 11 — implementação, comparação e otimização de modelos de previsão de séries temporais.
+icon: TrendingUp
+---
+
+## O Contexto
+
+A galáxia não é mais governada pela incerteza. Ela é governada por **dados**.
+
+Após a consolidação do Império Galáctico sob o comando do Chanceler Supremo **Sheev Palpatine**, uma nova prioridade estratégica emergiu no Departamento de Inteligência Econômica Imperial: garantir a supremacia financeira do Império sobre todos os sistemas aliados — e isso inclui monitorar ativos estratégicos em planetas periféricos da Orla Externa.
+
+Um desses ativos está sob análise urgente: uma corporação de extração de combustíveis hiperespaciais localizada no planeta **Terra**, cujo código de negociação na bolsa interestelar é **PETR4**.
+
+O problema é grave.
+
+A volatilidade dos mercados externos, as sabotagens coordenadas pela **Aliança Rebelde** e as oscilações na demanda por combustíveis tornaram **imprevisível o comportamento do ativo**. Os modelos atualmente em uso — baseados em médias simples de janela fixa — não estão capturando a dinâmica da série. As perdas acumuladas por posicionamento incorreto já chamaram a atenção do próprio Imperador.
+
+Você acaba de ser nomeado **Analista-Chefe de Previsão Econômica do Departamento Imperial de Inteligência Financeira**.
+
+<Callout type="warn" title="Ordem Direta do Chanceler Palpatine">
+"Implemente modelos superiores, avalie-os com rigor e me apresente uma recomendação definitiva. A imprecisão é uma forma de traição ao Império. **Falhe… e aprenderá o que significa servir em Kessel.**"
+</Callout>
+
+<Callout type="info" title="Nota do Arquivo Imperial — Anomalia Cronológica">
+Star Wars se passa muito, muito tempo atrás em uma galáxia muito, muito distante. Os dados históricos de PETR4 foram obtidos por interceptação temporal via **Cristal Kyber de Ressonância Cronológica** — um artefato Sith capaz de capturar transmissões de cronologias paralelas e transmiti-las ao HoloNet Imperial. Para fins desta operação, desconsidere o paradoxo e concentre-se nos modelos.
+</Callout>
+
+Seu trabalho é construir, comparar e otimizar modelos de previsão de séries temporais, e apresentar uma recomendação sustentada em dados ao Chanceler.
+
+---
+
+## Missão dos Discentes
+
+Com base **somente** na série histórica recebida, cada grupo deverá executar as cinco etapas abaixo.
+
+<Steps>
+
+### Etapa 1 — Reconhecimento do Terreno
+
+Antes de prever, é preciso compreender.
+
+Construa um gráfico da série temporal e identifique os seguintes padrões:
+
+| Componente | O que observar |
+|:--|:--|
+| **Tendência** | A série sobe, desce ou permanece estável ao longo do tempo? |
+| **Sazonalidade** | Existe algum padrão cíclico e repetitivo? |
+| **Ruído** | Qual a amplitude das oscilações irregulares? |
+| **Anomalias** | Existem valores discrepantes que merecem atenção especial? |
+
+Registre as observações por escrito — elas devem embasar a escolha de parâmetros nas etapas seguintes. Uma escolha de parâmetro sem justificativa apoiada na análise da série **não será aceita pelo Chanceler**.
+
+### Etapa 2 — Implementação dos Modelos
+
+Implemente os três modelos abaixo no Excel e calcule a previsão para cada período da série.
+
+#### Média Móvel Simples (MMS)
+
+Teste ao menos **duas janelas diferentes** (ex.: n = 3 e n = 5). Para cada janela, calcule:
+
+> **Previsão(t+1) = [D(t) + D(t-1) + … + D(t-n+1)] / n**
+
+Justifique qual janela parece mais adequada à dinâmica observada na Etapa 1.
+
+#### Média Móvel Ponderada (MMP)
+
+Defina pesos para os períodos dentro da janela, com **maior peso para os dados mais recentes**, de forma que `Σ pesos = 1`:
+
+> **Previsão(t+1) = w₁·D(t) + w₂·D(t-1) + … + wₙ·D(t-n+1)**
+
+Justifique a distribuição de pesos: por que dados recentes merecem mais influência neste contexto?
+
+#### Suavização Exponencial Simples (SES)
+
+Teste ao menos **dois valores de α** (ex.: α = 0,2 e α = 0,8). Para cada valor, calcule:
+
+> **F(t+1) = α · D(t) + (1 − α) · F(t)**
+
+<Callout title="Interpretação do Alpha">
+Um α próximo de **1** faz o modelo reagir quase exclusivamente ao último período observado — útil quando a série muda rapidamente. Um α próximo de **0** mantém a memória longa de toda a série — útil quando a série é estável. A escolha incorreta do α pode custar ao Império tanto quanto uma batalha perdida.
+</Callout>
+
+### Etapa 3 — Avaliação Imperial
+
+Para cada modelo — e cada parametrização testada — calcule as três métricas de erro abaixo e consolide os resultados em uma **tabela comparativa**:
+
+| Métrica | Fórmula | O que mede |
+|:--|:--|:--|
+| **MAD** | `Σ\|Real − Prev\| / n` | Erro médio em unidade original; intuitivo e fácil de explicar |
+| **MSE** | `Σ(Real − Prev)² / n` | Penaliza erros grandes; indicado para otimização via Solver |
+| **MAPE** | `Σ(\|Real − Prev\| / Real) × 100 / n` | Erro percentual; permite comparar séries de escalas diferentes |
+
+Com base na tabela, discuta:
+
+- Qual modelo apresentou menor erro em cada métrica?
+- Há inconsistência entre as métricas? (ex.: um modelo vence no MAD mas perde no MAPE?)
+- Qual parametrização de cada modelo mostrou-se mais adequada e por quê?
+
+### Etapa 4 — Otimização pelo Solver *(Elite do Império)*
+
+Esta etapa é **obrigatória para grupos que visam a distinção máxima**. Utilize o **Solver do Excel** para encontrar automaticamente os melhores parâmetros de cada modelo, minimizando o erro histórico:
+
+| Modelo | Variável de decisão | Restrição |
+|:--|:--|:--|
+| MMS | Janela n | n inteiro ≥ 2 |
+| MMP | Pesos w₁, w₂, …, wₙ | Σ wᵢ = 1; wᵢ ≥ 0 |
+| SES | Parâmetro α | 0 ≤ α ≤ 1 |
+
+Compare os parâmetros otimizados com os definidos manualmente na Etapa 2. O Solver encontrou uma solução significativamente melhor, ou a intuição do analista já estava próxima do ótimo?
+
+<Callout type="warn" title="Atenção ao Overfitting">
+Parametrizar perfeitamente sobre dados históricos não garante boa previsão do futuro — o modelo pode ter "memorizado" o passado sem aprender o padrão subjacente. O relatório deve reconhecer esse risco explicitamente. O Chanceler já foi enganado por modelos perfeitos no papel que falharam na operação real.
+</Callout>
+
+### Etapa 5 — Relatório ao Chanceler
+
+Consolide toda a análise em um **relatório executivo de no máximo 10 minutos**, apresentado em uma **plataforma de BI** (Power BI, Looker Studio, Metabase ou equivalente), respondendo:
+
+1. Qual é o comportamento da série? (tendência, sazonalidade, ruído identificados)
+2. Qual modelo apresentou melhor desempenho geral?
+3. Qual métrica você priorizou na comparação e por quê?
+4. Existe trade-off entre os modelos? (velocidade de reação vs. estabilidade)
+5. Se o Solver foi utilizado, os parâmetros ótimos fazem sentido intuitivo?
+6. Qual é a recomendação final — modelo e parametrização a adotar?
+
+<Callout type="warn" title="O Chanceler não confia em quem não mostra os números">
+Toda afirmação deve ser sustentada pela tabela comparativa de erros. Não há espaço para "parece melhor" ou "julgamos mais adequado" sem o MAD, MSE e MAPE correspondentes visíveis na tela. Sem esses números no dashboard, a recomendação não será aceita — e as consequências são conhecidas.
+</Callout>
+
+</Steps>
+
+---
+
+## Série Histórica para Download
+
+Cada grupo recebe **uma série histórica** de preços para trabalhar ao longo das duas etapas do desafio.
+
+<Callout type="info" title="Estrutura dos arquivos">
+Cada arquivo contém a série histórica de um ativo com 30 a 60 períodos (dias ou semanas). Os dados refletem comportamento real ou simulado com tendência e ruído característicos de ativos voláteis de energia.
+</Callout>
+
+*(Os arquivos serão disponibilizados pelo professor no início da atividade, seguindo o mesmo padrão de cenários da Prática do Módulo 7.)*
+
+---
+
+## Critérios de Avaliação
+
+| Critério | O que se observa |
+|:--|:--|
+| **Implementação correta dos modelos** | MMS, MMP e SES calculados corretamente, com ao menos duas parametrizações cada |
+| **Cálculo das métricas de erro** | MAD, MSE e MAPE presentes para cada modelo e cada parametrização testada |
+| **Análise comparativa** | Tabela comparativa clara, comentada e com trade-offs explicitados |
+| **Coerência das justificativas** | Escolha de parâmetros sustentada pela análise da série (Etapa 1) |
+| **Qualidade do relatório executivo** | Comunicação objetiva, dentro do tempo, com estatísticas visíveis no BI |
+| **Otimização via Solver** *(bônus)* | Solver configurado corretamente; resultado comparado com a parametrização manual e risco de overfitting reconhecido |

@@ -89,7 +89,7 @@ Para cada item, proponha e justifique:
 | **Nível de serviço desejado** | Probabilidade de não ruptura (ex.: 95%) e seu significado operacional |
 | **Estoque de Segurança (ES)** | Reserva contra variabilidade |
 | **Ponto de Ressuprimento (ROP)** | Nível de estoque que dispara o pedido |
-| **Ponto máximo esperado** | Estimativa do teto do estoque após recebimento |
+| **Ponto máximo esperado** | Teto do estoque logo após o recebimento — o consumo do lead time já ocorreu, então restam apenas o ES e o lote |
 | **Justificativa do lote** | Raciocínio para o tamanho do pedido proposto |
 
 <Callout title="Fórmulas sugeridas">
@@ -99,7 +99,7 @@ Quando demanda **e** lead time variam simultaneamente:
 
 **ROP = demanda\_média × LT\_médio + ES**
 
-**Ponto máximo esperado ≈ ROP + lote proposto**
+**Ponto máximo esperado ≈ ES + lote proposto**
 </Callout>
 
 ### Etapa 5 — Custo da Prontidão
