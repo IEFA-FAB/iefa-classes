@@ -1,0 +1,435 @@
+---
+title: "Prática — A Tormenta Perfeita"
+description: Atividade prática integradora — previsão de demanda não-estacionária com tendência, sazonalidade e ciclicidade; dimensionamento de lotes por Silver-Meal; estoque de segurança e ponto de ressuprimento dinâmicos.
+icon: Anchor
+---
+
+<img
+  src="/modulo_7_pr%C3%A1tica/DOM_GAPFM.png"
+  alt="Distintivo de Organização Militar — Grupamento de Apoio do Fim do Mundo"
+  style={{display:'block',margin:'2rem auto 0.5rem',maxWidth:'180px'}}
+/>
+<p style={{textAlign:'center',fontStyle:'italic',color:'var(--fd-muted-foreground)',fontSize:'0.8rem',marginTop:0}}>
+  Distintivo de Organização Militar (DOM) — GAPFM
+</p>
+
+## O Contexto
+
+Vocês sobreviveram ao **Almoxarifado do Fim do Mundo**. O Coronel Aviador Davy Jones ficou tão satisfeito com o trabalho que — como dizem por aí — **burro bom, carga nele**.
+
+O Grupamento de Apoio do Fim do Mundo mudou. Novas aeronaves chegaram, esquadrões foram ampliados, e a base passou a operar missões durante o ano inteiro — incluindo o inverno polar, quando tudo fica mais difícil e mais caro.
+
+Aqueles parâmetros que vocês calcularam na missão anterior? **Não servem mais.** O consumo mudou de padrão. Parece que cresce todo ano, tem meses em que o pessoal consome material como se não houvesse amanhã, e de vez em quando uma "onda" misteriosa de demanda aparece sem que ninguém saiba explicar de onde vem.
+
+Os parâmetros estáticos — ROP fixo, Estoque de Segurança fixo, lote fixo — transformaram o almoxarifado numa montanha-russa: ora abarrotado (torrando dinheiro com estoque parado), ora vazio (comprometendo a missão). A conta estourou o orçamento e o Coronel quer explicações.
+
+<Callout type="warn" title="Novo Briefing do Coronel Jones">
+"Vocês me impressionaram da última vez. Erro meu — deveria ter dado o problema de verdade desde o início. Agora o consumo muda com o tempo, muda com a estação e, de vez em quando, dá umas disparadas que ninguém prevê. A média geral não funciona mais. **Descubram o padrão, prevejam a demanda e me digam quanto pedir, quando pedir, e quanto isso vai custar — mês a mês.** Se eu quisesse média fixa, pedia pro estagiário."
+</Callout>
+
+Vocês recebem o **histórico de demanda mensal de 5 anos** (Jan/2021 a Dez/2025) de dois itens, além dos custos de pedido, custo unitário, taxa de posse e parâmetros de lead time. Desta vez, não há histórico de estoque — vocês vão **construir a política do zero**, não reconstruir a que existia.
+
+---
+
+## Inteligência de Corredor
+
+Antes de mergulhar nos dados, vale ouvir quem conhece o Fim do Mundo de verdade. Alguns veteranos compartilharam observações sobre o comportamento do consumo — nenhuma registrada oficialmente, mas quem já serviu aqui sabe que o conhecimento do corredor muitas vezes salva mais que o regulamento.
+
+<Callout type="info" title="Quem é quem no corredor">
+As observações abaixo vêm de **personagens diferentes em cada cenário**. Preste atenção: o que o Sargento Barba-Ruiva diz no Estaleiro do Abismo pode não valer para o Forte da Corrente Negra. As dicas de cada cenário estão na [seção de download](#cenários-e-arquivos-para-download).
+</Callout>
+
+---
+
+## Missão dos Discentes
+
+Com base no histórico de demanda e nos parâmetros de custo e lead time do seu cenário, cada grupo deverá executar as sete etapas abaixo.
+
+<Steps>
+
+### Etapa 1 — Reconhecimento Visual
+
+Antes de calcular qualquer coisa, **olhe para os dados**.
+
+Construa um gráfico de linha da demanda mensal de cada item ao longo dos 60 meses e tente identificar:
+
+| Componente | O que observar |
+|:--|:--|
+| **Tendência** | A demanda sobe, desce ou permanece estável ao longo dos 5 anos? |
+| **Sazonalidade** | Existe um padrão que se repete todo ano nos mesmos meses? |
+| **Ciclicidade** | Existem "ondas" mais longas que um ano — períodos de consumo elevado seguidos de calmaria? |
+| **Aleatoriedade** | Qual a amplitude das oscilações irregulares, aquelas que não parecem seguir padrão? |
+
+Cruze o que vocês veem no gráfico com as **dicas do corredor** do seu cenário. As dicas não entregam a resposta, mas apontam onde olhar.
+
+<Callout title="Dica">
+Um gráfico com a demanda bruta e uma **média móvel de 12 meses** sobreposta já revela muita coisa. A média móvel elimina a sazonalidade — o que sobra é a tendência misturada com o ciclo.
+</Callout>
+
+### Etapa 2 — Decomposição da Demanda
+
+Separem a demanda nos seus componentes. Para um **modelo multiplicativo**:
+
+> **D(t) = T(t) × S(t) × C(t) × I(t)**
+
+Onde T = Tendência, S = Sazonalidade, C = Ciclicidade, I = Componente irregular (aleatoriedade).
+
+**Roteiro sugerido:**
+
+1. Calculem a **média móvel centrada de 12 meses** — ela elimina a sazonalidade e suaviza o ruído, revelando T × C.
+2. Dividam a demanda original pela média móvel para obter **S × I** (os fatores sazonal e irregular combinados).
+3. Calculem os **índices sazonais**: para cada mês (Jan–Dez), façam a média dos valores S × I daquele mês ao longo dos anos. Normalizem para que a soma dos 12 índices seja igual a 12.
+4. **Dessazonalizem** a série: dividam a demanda original pelos índices sazonais. O resultado é T × C × I.
+5. Ajustem uma **linha de tendência** (regressão linear) sobre a série dessazonalizada para isolar T.
+6. O que sobrar após remover T e S é **C × I**. Tentem identificar visualmente o ciclo — uma oscilação mais lenta que a sazonalidade.
+
+<Callout title="Dica">
+A ciclicidade é mais difícil de isolar que a sazonalidade. Não se preocupem em ter uma fórmula perfeita para ela — identifiquem visualmente o padrão e estimem o período aproximado. Isso já é suficiente para ajustar a previsão.
+</Callout>
+
+### Etapa 3 — Previsão
+
+Com os componentes decompostos, **projetem a demanda para os próximos 12 meses** (Jan–Dez/2026).
+
+> **Previsão(t) = Tendência projetada(t) × Índice sazonal(t) × Fator cíclico estimado(t)**
+
+Para cada mês futuro:
+- Extrapolem a tendência usando a equação da reta ajustada na Etapa 2.
+- Apliquem o índice sazonal do mês correspondente.
+- Estimem o fator cíclico com base na posição atual no ciclo identificado.
+
+Depois de gerar a previsão, calculem as **métricas de erro** sobre os dados históricos (usando, por exemplo, os últimos 12 meses como validação):
+
+| Métrica | O que mede |
+|:--|:--|
+| **MAD** | Erro médio absoluto — em unidades |
+| **MAPE** | Erro percentual — permite comparar itens de escalas diferentes |
+
+<Callout title="Dica — O insight mais importante desta etapa">
+Guardem os **resíduos** (diferença entre a demanda real e a previsão) — vocês vão precisar deles na Etapa 5. Pensem: se a previsão já capturou a tendência e a sazonalidade, contra qual variabilidade o estoque de segurança precisa proteger?
+</Callout>
+
+### Etapa 4 — Dimensionamento de Lotes: Silver-Meal
+
+Com a demanda prevista mês a mês, o **Lote Econômico de Compra clássico (EOQ/LEC) não se aplica diretamente** — ele assume demanda constante, e a demanda de vocês muda todo mês.
+
+Para demanda variável no tempo, usem a **heurística Silver-Meal**, que encontra o lote que minimiza o **custo médio relevante por período**.
+
+**Como funciona:**
+
+Suponham que vocês estão no início do mês j e precisam fazer um pedido. A pergunta é: **para quantos meses comprar de uma vez?**
+
+| Cobertura | Custo total | Custo médio por período |
+|:--|:--|:--|
+| Só mês j | S | S / 1 |
+| Meses j e j+1 | S + h × D(j+1) × 1 | (S + h × D(j+1)) / 2 |
+| Meses j a j+2 | S + h × D(j+1) × 1 + h × D(j+2) × 2 | (custo total) / 3 |
+| ... | ... | ... |
+
+Onde **S** = custo por pedido, **h** = custo de posse por unidade por mês, **D(t)** = demanda prevista do período t.
+
+**Regra de parada:** continuem adicionando períodos enquanto o custo médio por período **diminuir**. Quando ele **aumentar**, parem — o lote ótimo cobre até o período anterior.
+
+Depois, repitam o processo a partir do primeiro mês não coberto.
+
+<Callout title="Custo de posse mensal">
+O custo de posse por unidade por mês é:
+
+**h = (custo unitário × taxa anual de posse) / 12**
+
+Os parâmetros de custo estão na tabela do seu cenário.
+</Callout>
+
+<Callout type="warn" title="Por que não usar o EOQ direto?">
+O EOQ assume que D é constante. Se vocês plugarem a demanda média anual no EOQ, vão pedir o mesmo lote em janeiro (quando o consumo é baixo) e em julho (quando o consumo é alto). O Silver-Meal adapta o tamanho do lote à realidade de cada período — isso é o que o Coronel quer dizer com "mês a mês".
+</Callout>
+
+### Etapa 5 — Estoque de Segurança e ROP Dinâmicos
+
+Agora que vocês sabem **quanto** pedir (Silver-Meal) e **a demanda prevista por mês**, precisam definir **quando** disparar o pedido e **quanta reserva** manter.
+
+**Estoque de Segurança (ES):**
+
+> **ES = Z × σ\_erro × √LT\_médio**
+
+Onde:
+- **Z** = fator do nível de serviço (vocês definem — justifiquem a escolha para cada item, considerando a classificação must-have / need-to-have);
+- **σ\_erro** = desvio padrão dos **resíduos da previsão** (Etapa 3);
+- **LT\_médio** = lead time médio em meses (fornecido nos parâmetros do cenário).
+
+Se o lead time também varia:
+
+> **ES = Z × √( LT\_médio × σ²\_erro + previsão²\_média × σ²\_LT )**
+
+**Ponto de Ressuprimento (ROP):**
+
+> **ROP(t) = demanda prevista durante o lead time a partir de t + ES**
+
+Como a demanda prevista muda mês a mês, **o ROP também muda**. Isso é o coração da diferença em relação ao Módulo 7: os parâmetros agora são **dinâmicos**.
+
+<Callout title="Dica">
+Se a decomposição foi bem feita, o σ dos resíduos será **bem menor** que o desvio padrão da demanda bruta. Isso significa que uma boa previsão **reduz** o estoque de segurança necessário — e isso é dinheiro economizado. Mostrem esse contraste ao Coronel.
+</Callout>
+
+### Etapa 6 — Custo Total
+
+Estimem o **custo total anual** da política proposta para 2026, somando:
+
+| Componente | Cálculo |
+|:--|:--|
+| **Custo de pedido** | Número de pedidos (do Silver-Meal) × S |
+| **Custo de posse** | Estoque médio mantido ao longo do ano × custo unitário × taxa anual de posse |
+
+Comparem com o custo que uma **política ingênua** (lote fixo pelo EOQ clássico com demanda média) geraria. A diferença é o valor da previsão.
+
+### Etapa 7 — Briefing ao Coronel
+
+Consolide tudo em um **briefing executivo de no máximo 10 minutos**, apresentado em uma **plataforma de BI** (Power BI, Looker Studio, Metabase ou equivalente), respondendo:
+
+1. Qual é o comportamento da demanda? (tendência, sazonalidade, ciclicidade identificadas)
+2. Qual modelo de decomposição foi usado e qual a qualidade da previsão? (MAD, MAPE)
+3. Qual item representa maior risco e por quê?
+4. Quanto pedir e quando? (cronograma Silver-Meal dos próximos 12 meses)
+5. Qual o nível de serviço proposto e o estoque de segurança correspondente?
+6. Quanto custa a política proposta vs. a ingênua?
+7. O que o Coronel ganha ao aceitar?
+
+<Callout type="warn" title="O Coronel já não cai em média disfarçada">
+Depois do último almoxarifado, o Coronel Davy Jones virou especialista em detectar quem usa média fixa onde deveria usar previsão. O briefing **deve mostrar os parâmetros variando ao longo do tempo**: gráfico do ROP mês a mês, ES justificado pelo erro da previsão (não pela variância bruta), e cronograma de lotes do Silver-Meal. Se o ROP aparecer como uma linha reta, o Coronel saberá que vocês não fizeram a decomposição — e as consequências são conhecidas.
+</Callout>
+
+</Steps>
+
+---
+
+## Cenários e Arquivos para Download
+
+Cada grupo recebe **um cenário** com um arquivo CSV contendo a demanda mensal de dois itens ao longo de 60 meses (Jan/2021 a Dez/2025).
+
+<Callout type="info" title="Estrutura dos arquivos">
+Cada CSV possui quatro colunas: `ano`, `mes`, e a demanda de cada item. Os **parâmetros de custo e lead time** estão na tabela do cenário abaixo — não estão no CSV.
+</Callout>
+
+---
+
+### C1 — Estaleiro do Abismo
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | GEL-01 — Gel de Resfriamento do Reator Espectral |
+| 🟡 **Need-to-have** | BRC-04 — Braçadeira de Fixação do Convés |
+
+| Parâmetro | GEL-01 | BRC-04 |
+|:--|:--|:--|
+| Custo unitário (R$) | 180,00 | 45,00 |
+| Custo por pedido — S (R$) | 600,00 | 350,00 |
+| Taxa anual de posse | 22% | 22% |
+| Lead time médio (meses) | 1,5 | 1,0 |
+| Desvio padrão do lead time (meses) | 0,4 | 0,3 |
+
+<Callout type="info" title="Inteligência de Corredor — Estaleiro do Abismo">
+**Sargento Barba-Ruiva:** "Desde que ampliaram o esquadrão no começo de 2021, todo ano que passa é mais material pra manter. Não tem como fugir — mais avião, mais peça."
+
+**Cabo Espectro:** "No inverno — lá por junho, julho — o consumo de GEL-01 vai lá em cima. Normal: o frio do Estreito exige mais do reator. E janeiro é morto, o pessoal tá de licença."
+
+**Suboficial Mão-de-Ferro:** "De vez em quando rola uma fase de revisão geral nas turbinas. Quando acontece, o consumo dispara por uns 4 ou 5 meses. Já vi isso acontecer pelo menos duas vezes desde que cheguei em 2020. Não sei de quanto em quanto tempo, mas que tem um padrão, tem."
+</Callout>
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/pratica_tormenta/C1_estaleiro_do_abismo_demanda.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Demanda Mensal
+  </a>
+</div>
+
+---
+
+### C2 — Forte da Corrente Negra
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | OXD-11 — Oxidante de Propulsão Fantasma |
+| 🟡 **Need-to-have** | TRV-08 — Trava de Comporta Lateral |
+
+| Parâmetro | OXD-11 | TRV-08 |
+|:--|:--|:--|
+| Custo unitário (R$) | 220,00 | 55,00 |
+| Custo por pedido — S (R$) | 750,00 | 400,00 |
+| Taxa anual de posse | 25% | 25% |
+| Lead time médio (meses) | 2,0 | 1,5 |
+| Desvio padrão do lead time (meses) | 0,5 | 0,4 |
+
+<Callout type="info" title="Inteligência de Corredor — Forte da Corrente Negra">
+**Sargento Maré-Alta:** "Março a maio aqui é inferno — tempestade atrás de tempestade. O pessoal gasta OXD-11 que é uma loucura pra manter os propulsores operacionais. Setembro e outubro são os meses mais tranquilos que eu lembro."
+
+**Tenente Meia-Noite:** "O consumo cresce um pouco a cada ano, mas não é isso que pega. O que domina mesmo é a variação estacional — quando chega a temporada de tempestades, os números dobram."
+
+**Cabo Âncora:** "Às vezes parece que tem umas ondas maiores de consumo que duram meses, tipo algo além do inverno. Mas é difícil separar — pode ser coincidência, pode ser que tenha um ciclo de manutenção maior que eu não tô enxergando."
+</Callout>
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/pratica_tormenta/C2_forte_da_corrente_negra_demanda.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Demanda Mensal
+  </a>
+</div>
+
+---
+
+### C3 — Depósito do Vórtice
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | PLG-21 — Plugue de Ignição do Motor Abissal |
+| 🟡 **Need-to-have** | FBR-15 — Fibra de Reforço Estrutural |
+
+| Parâmetro | PLG-21 | FBR-15 |
+|:--|:--|:--|
+| Custo unitário (R$) | 160,00 | 40,00 |
+| Custo por pedido — S (R$) | 500,00 | 300,00 |
+| Taxa anual de posse | 20% | 20% |
+| Lead time médio (meses) | 1,5 | 1,0 |
+| Desvio padrão do lead time (meses) | 0,3 | 0,2 |
+
+<Callout type="info" title="Inteligência de Corredor — Depósito do Vórtice">
+**Mestre Leme:** "O crescimento aqui é devagar, quase não percebe de um ano pro outro. Mas o inverno... o inverno muda tudo. Quando o gelo recua lá por agosto, setembro, começam as operações pesadas de degelo e o consumo de PLG-21 vai lá em cima."
+
+**Sargento Barba-Ruiva:** "De agosto a outubro é o pico garantido. O Vórtice congela feio e o motor abissal trabalha dobrado. Janeiro e fevereiro são os meses mais calmos."
+
+**Suboficial Mão-de-Ferro:** "Tenho quase certeza que tem um ciclo de revisão geral que acontece a cada dois anos e meio, mais ou menos. Quando entra, são meses de consumo alto que vão além do sazonal. Já vi isso umas duas vezes, talvez três, desde que cheguei."
+</Callout>
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/pratica_tormenta/C3_deposito_do_vortice_demanda.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Demanda Mensal
+  </a>
+</div>
+
+---
+
+### C4 — Arsenal da Baía Sombria
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | CMP-31 — Compressor de Ar da Câmara de Mergulho |
+| 🟡 **Need-to-have** | ANT-06 — Antena de Comunicação Subaquática |
+
+| Parâmetro | CMP-31 | ANT-06 |
+|:--|:--|:--|
+| Custo unitário (R$) | 250,00 | 65,00 |
+| Custo por pedido — S (R$) | 900,00 | 450,00 |
+| Taxa anual de posse | 28% | 28% |
+| Lead time médio (meses) | 2,5 | 2,0 |
+| Desvio padrão do lead time (meses) | 0,7 | 0,5 |
+
+<Callout type="info" title="Inteligência de Corredor — Arsenal da Baía Sombria">
+**Tenente Meia-Noite:** "Cada ano que passa o consumo sobe visivelmente. O esquadrão não para de crescer e a Baía Sombria virou polo de operações de mergulho. A tendência é clara."
+
+**Cabo Espectro:** "Sazonalidade aqui não é tão forte quanto nos outros postos — a Baía Sombria opera o ano todo com intensidade parecida. Mas o barulho no consumo é grande: um mês consome 200, no seguinte 130, sem explicação óbvia. Difícil prever."
+
+**Suboficial Mão-de-Ferro:** "Parece que de tempos em tempos, quando rola revisão geral dos equipamentos de mergulho, o consumo dá uma disparada por alguns meses. Mas com tanto barulho nos dados, é difícil enxergar o ciclo direito."
+</Callout>
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/pratica_tormenta/C4_arsenal_da_baia_sombria_demanda.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Demanda Mensal
+  </a>
+</div>
+
+---
+
+### C5 — Oficina do Recife Perdido
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | TRB-18 — Turbina Auxiliar de Navegação |
+| 🟡 **Need-to-have** | ISO-09 — Isolante Térmico de Tubulação |
+
+| Parâmetro | TRB-18 | ISO-09 |
+|:--|:--|:--|
+| Custo unitário (R$) | 200,00 | 50,00 |
+| Custo por pedido — S (R$) | 650,00 | 380,00 |
+| Taxa anual de posse | 24% | 24% |
+| Lead time médio (meses) | 2,0 | 1,5 |
+| Desvio padrão do lead time (meses) | 0,5 | 0,4 |
+
+<Callout type="info" title="Inteligência de Corredor — Oficina do Recife Perdido">
+**Sargento Maré-Alta:** "O crescimento aqui é firme mas não é explosivo — dá pra ver nos dados, só que não assusta como na Baía Sombria."
+
+**Mestre Leme:** "Abril a julho sempre pede mais material. As correntes do Recife mudam nessa época e a turbina trabalha mais. Novembro e dezembro caem bastante — o mar acalma e a manutenção preventiva diminui."
+
+**Suboficial Mão-de-Ferro:** "Aqui o ciclo de manutenção geral é mais espaçado que nos outros postos — quase três anos entre uma onda e outra. Mas quando vem, vem forte. Tô aqui desde 2020 e já vi duas ondas claras."
+</Callout>
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/pratica_tormenta/C5_oficina_do_recife_perdido_demanda.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Demanda Mensal
+  </a>
+</div>
+
+---
+
+### C6 — Bateria do Cabo Tormentoso
+
+| Classificação | Item |
+|:--|:--|
+| 🔴 **Must-have** | REG-44 — Regulador de Pressão do Casco |
+| 🟡 **Need-to-have** | GRX-03 — Graxa Naval de Alta Viscosidade |
+
+| Parâmetro | REG-44 | GRX-03 |
+|:--|:--|:--|
+| Custo unitário (R$) | 140,00 | 35,00 |
+| Custo por pedido — S (R$) | 450,00 | 280,00 |
+| Taxa anual de posse | 22% | 22% |
+| Lead time médio (meses) | 1,5 | 1,0 |
+| Desvio padrão do lead time (meses) | 0,4 | 0,3 |
+
+<Callout type="info" title="Inteligência de Corredor — Bateria do Cabo Tormentoso">
+**Tenente Meia-Noite:** "O consumo total não cresce tanto de ano pra ano aqui. O efetivo da Bateria é estável. O que pega é a variação dentro do ano — brutal."
+
+**Sargento Barba-Ruiva:** "Maio a setembro é o pico, sem dúvida. O inverno do Cabo Tormentoso é implacável. O REG-44 sofre com a pressão do casco na temporada de gelo e o consumo de GRX-03 acompanha. Nos meses quentes o consumo cai pela metade."
+
+**Suboficial Mão-de-Ferro:** "A cada dois anos, mais ou menos, entra um ciclo de revisão geral que dura uns 5 meses. É bem visível nos dados — já vi isso acontecer umas duas ou três vezes desde que cheguei há seis anos. Ciclo mais curto que nos outros postos, pelo que ouço."
+</Callout>
+
+<div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',margin:'0.75rem 0'}}>
+  <a
+    href="/pratica_tormenta/C6_bateria_do_cabo_tormentoso_demanda.csv"
+    download
+    style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',padding:'0.45rem 1rem',borderRadius:'6px',background:'var(--fd-primary)',color:'var(--fd-primary-foreground)',fontWeight:600,fontSize:'0.85rem',textDecoration:'none'}}
+  >
+    ⬇ Demanda Mensal
+  </a>
+</div>
+
+---
+
+## Critérios de Avaliação
+
+| Critério | O que se observa |
+|:--|:--|
+| **Decomposição da demanda** | Identificação correta de tendência, sazonalidade e ciclicidade; índices sazonais calculados e normalizados |
+| **Qualidade da previsão** | Previsão coerente com os componentes; métricas de erro (MAD, MAPE) calculadas e interpretadas |
+| **Aplicação do Silver-Meal** | Heurística aplicada corretamente com demanda prevista; lotes justificados período a período |
+| **ES e ROP dinâmicos** | Estoque de segurança baseado no erro de previsão (não na variância bruta); ROP variando no tempo |
+| **Coerência da política** | Nível de serviço diferenciado entre must-have e need-to-have; trade-off custo vs. risco explícito |
+| **Comparação com política ingênua** | Demonstração quantitativa do ganho do Silver-Meal + previsão sobre lote fixo + média |
+| **Qualidade do briefing executivo** | Comunicação clara, objetiva, dentro do tempo, com parâmetros dinâmicos visíveis no BI |

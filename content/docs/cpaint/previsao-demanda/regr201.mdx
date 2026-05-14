@@ -1,0 +1,306 @@
+---
+title: REGR201 - Regressão Linear
+description: Dedução completa da regressão linear pelo método dos mínimos quadrados.
+icon: TrendingUp
+---
+
+**Código**: REGR201  
+**Nível**: Intermediário  
+**Pré-requisitos**: STAT101, FCST201
+
+<Callout title="Objetivo desta página">
+Deduzir, passo a passo, as fórmulas da regressão linear simples a partir de uma única ideia: **escolher a reta que minimiza a soma dos erros ao quadrado**. Não precisamos aceitar fórmulas prontas — vamos construí-las do zero.
+</Callout>
+
+## 1. A reta nunca acerta tudo
+
+Imagine que temos estes pontos reais:
+
+| $x$ | $y_{\text{real}}$ |
+| :--: | :--: |
+| 1 | 3 |
+| 2 | 5 |
+| 3 | 7 |
+| 4 | 8 |
+
+A reta tenta prever o valor de $y$. Para cada $x_i$, ela gera um valor previsto:
+
+$$
+\hat{y}_i = a + b x_i
+$$
+
+Mas quase sempre a previsão não será exatamente igual ao valor real. Então aparece o **erro**:
+
+$$
+e_i = y_i - \hat{y}_i
+$$
+
+Como $\hat{y}_i = a + b x_i$, temos:
+
+$$
+e_i = y_i - (a + b x_i) = y_i - a - b x_i
+$$
+
+Esse erro é a **distância vertical** entre o ponto real e a reta.
+
+## 2. O que significa "melhor reta"?
+
+A melhor reta é aquela que deixa os erros menores.
+
+Mas não podemos simplesmente somar os erros $\sum e_i$, porque erros positivos e negativos podem se cancelar:
+
+$$
+(+10) + (-10) = 0
+$$
+
+Pareceria que o erro total é zero, mas na verdade a reta errou bastante.
+
+Então usamos os **erros ao quadrado** $e_i^2$. Assim:
+
+- Erro positivo vira positivo.
+- Erro negativo vira positivo.
+- Erros grandes são **punidos mais fortemente**.
+
+A função que queremos minimizar é:
+
+$$
+S(a, b) = \sum_{i=1}^{n} (y_i - a - b x_i)^2
+$$
+
+Essa é a **soma dos erros quadráticos**. O objetivo da regressão linear é:
+
+$$
+\min_{a, b} \sum_{i=1}^{n} (y_i - a - b x_i)^2
+$$
+
+> Escolher $a$ e $b$ para que a soma dos erros ao quadrado seja a menor possível.
+
+## 3. Deduzindo o intercepto $a$
+
+Temos:
+
+$$
+S(a, b) = \sum_{i=1}^{n} (y_i - a - b x_i)^2
+$$
+
+Para achar o menor valor possível dessa função, derivamos em relação a $a$ e igualamos a zero:
+
+$$
+\frac{\partial S}{\partial a} = 0
+$$
+
+A derivada fica:
+
+$$
+-2 \sum_{i=1}^{n} (y_i - a - b x_i) = 0
+$$
+
+Dividindo por $-2$:
+
+$$
+\sum_{i=1}^{n} (y_i - a - b x_i) = 0
+$$
+
+Separando os termos:
+
+$$
+\sum y_i - \sum a - b \sum x_i = 0
+$$
+
+Como $a$ é constante, $\sum a = na$. Então:
+
+$$
+\sum y_i - na - b \sum x_i = 0
+$$
+
+Isolando $a$:
+
+$$
+na = \sum y_i - b \sum x_i
+$$
+
+Dividindo por $n$:
+
+$$
+a = \frac{\sum y_i}{n} - b \cdot \frac{\sum x_i}{n}
+$$
+
+Mas $\frac{\sum y_i}{n} = \bar{y}$ e $\frac{\sum x_i}{n} = \bar{x}$. Logo:
+
+$$
+\boxed{a = \bar{y} - b\bar{x}}
+$$
+
+<Callout type="info" title="Conclusão importante">
+A reta de regressão **sempre passa pelo ponto médio** dos dados $(\bar{x}, \bar{y})$. A melhor reta precisa passar pelo "centro de massa" dos pontos.
+</Callout>
+
+## 4. Deduzindo a inclinação $b$
+
+Já sabemos que $a = \bar{y} - b\bar{x}$. A reta é $\hat{y} = a + bx$. Substituindo $a$:
+
+$$
+\hat{y} = \bar{y} - b\bar{x} + bx = \bar{y} + b(x - \bar{x})
+$$
+
+Isso é muito importante — agora a reta diz:
+
+> A previsão de $y$ é a **média de $y$**, ajustada pela **distância de $x$ em relação à média de $x$**.
+
+O erro fica:
+
+$$
+e_i = y_i - \hat{y}_i = y_i - [\bar{y} + b(x_i - \bar{x})]
+$$
+
+$$
+e_i = (y_i - \bar{y}) - b(x_i - \bar{x})
+$$
+
+### Simplificando a notação
+
+Chamemos:
+
+$$
+Y_i = y_i - \bar{y} \qquad\text{e}\qquad X_i = x_i - \bar{x}
+$$
+
+Então $e_i = Y_i - bX_i$ e a soma dos erros quadráticos vira:
+
+$$
+S(b) = \sum (Y_i - bX_i)^2
+$$
+
+Derivando em relação a $b$ e igualando a zero:
+
+$$
+\frac{dS}{db} = \sum 2(Y_i - bX_i)(-X_i) = 0
+$$
+
+Removendo o $2$ e o sinal negativo:
+
+$$
+\sum X_i (Y_i - bX_i) = 0
+$$
+
+Distribuindo:
+
+$$
+\sum X_i Y_i - b \sum X_i^2 = 0
+$$
+
+Isolando $b$:
+
+$$
+b \sum X_i^2 = \sum X_i Y_i
+$$
+
+$$
+b = \frac{\sum X_i Y_i}{\sum X_i^2}
+$$
+
+Voltando à forma original ($X_i = x_i - \bar{x}$, $Y_i = y_i - \bar{y}$):
+
+$$
+\boxed{b = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum (x_i - \bar{x})^2}}
+$$
+
+## 5. Intuição Feynman da fórmula de $b$
+
+Agora vamos explicar como se fosse uma história.
+
+### O numerador
+
+$$
+\sum (x_i - \bar{x})(y_i - \bar{y})
+$$
+
+Mede se $x$ e $y$ **se movem juntos**:
+
+- Se $x$ está acima da média **e** $y$ também está acima da média → produto **positivo**.
+- Se $x$ está abaixo da média **e** $y$ também está abaixo → produto **positivo**.
+- Se $x$ sobe e $y$ cai → produto **negativo**.
+
+O numerador mede a **movimentação conjunta** de $x$ e $y$.
+
+### O denominador
+
+$$
+\sum (x_i - \bar{x})^2
+$$
+
+Mede o quanto $x$ **varia sozinho**.
+
+### A inclinação
+
+$$
+b = \frac{\text{quanto } x \text{ e } y \text{ variam juntos}}{\text{quanto } x \text{ varia sozinho}}
+$$
+
+> $b$ mede **quanto $y$ muda, em média, para cada unidade de mudança em $x$**.
+
+<Callout type="info" title="Conexão com STAT101">
+O numerador é a **covariância** entre $x$ e $y$. O denominador é a **variância** de $x$. Se você já estudou [correlação](./stat101#correlação-e-causalidade), lembre que $r = \frac{\text{Cov}(x,y)}{\sigma_x \cdot \sigma_y}$. A inclinação $b$ e a correlação $r$ são parentes próximos.
+</Callout>
+
+## 6. Resultado final da dedução
+
+A regressão linear simples fica assim:
+
+$$
+\hat{y} = a + bx
+$$
+
+Com:
+
+$$
+b = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum (x_i - \bar{x})^2}
+$$
+
+$$
+a = \bar{y} - b\bar{x}
+$$
+
+A dedução inteira nasce de uma **única ideia**:
+
+$$
+\min_{a, b} \sum_{i=1}^{n} (y_i - a - b x_i)^2
+$$
+
+> Escolher a reta que minimiza a soma dos erros ao quadrado.
+
+### Exemplo numérico
+
+Usando os dados do início ($x = 1, 2, 3, 4$ e $y = 3, 5, 7, 8$):
+
+| | Cálculo | Valor |
+| :-- | :-- | :--: |
+| $\bar{x}$ | $(1+2+3+4)/4$ | $2{,}5$ |
+| $\bar{y}$ | $(3+5+7+8)/4$ | $5{,}75$ |
+| $\sum(x_i - \bar{x})(y_i - \bar{y})$ | $(-1{,}5)(-2{,}75) + (-0{,}5)(-0{,}75) + (0{,}5)(1{,}25) + (1{,}5)(2{,}25)$ | $8{,}25$ |
+| $\sum(x_i - \bar{x})^2$ | $2{,}25 + 0{,}25 + 0{,}25 + 2{,}25$ | $5{,}0$ |
+| $b$ | $8{,}25 / 5{,}0$ | $1{,}65$ |
+| $a$ | $5{,}75 - 1{,}65 \times 2{,}5$ | $1{,}625$ |
+
+A reta de regressão é:
+
+$$
+\hat{y} = 1{,}625 + 1{,}65x
+$$
+
+| $x$ | $y_{\text{real}}$ | $\hat{y}$ | $e$ |
+| :--: | :--: | :--: | :--: |
+| 1 | 3 | 3,275 | −0,275 |
+| 2 | 5 | 4,925 | +0,075 |
+| 3 | 7 | 6,575 | +0,425 |
+| 4 | 8 | 8,225 | −0,225 |
+
+<Callout type="info" title="Aplicação em Previsão de Demanda">
+Na prática, $x$ é o **período** (mês 1, mês 2, ...) e $y$ é a **demanda observada**. A regressão captura a **tendência** linear da demanda ao longo do tempo — algo que a Média Móvel Simples ([FCST201](./fcst201#médias-móveis-simples-mms)) não consegue fazer bem, pois trata todos os períodos com peso igual e não projeta a direção.
+</Callout>
+
+## Materiais de Consulta
+
+- **ANDERSON, David R. et al.** *Estatística Aplicada a Administração e Economia.* Cengage, 2019. Cap. 14 — Regressão Linear Simples.
+- **HANKE, John E.; WICHERN, Dean W.** *Business Forecasting.* Pearson. Cap. 6 — Regression with Time Series Data.
+- Conexão: [STAT101 — Correlação](./stat101#correlação-e-causalidade) | [FCST201 — Métodos de Previsão](./fcst201)

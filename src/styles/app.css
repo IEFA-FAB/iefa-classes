@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
+@import "katex/dist/katex.min.css";
 @import "@fontsource/geist-sans/400.css";
 @import "@fontsource/geist-sans/700.css";
 @import "@fontsource/geist-mono/400.css";
@@ -208,7 +209,8 @@ nav a[href*="stat101"] {
 /* Nível 200 — laranja */
 nav a[href*="data201"],
 nav a[href*="fcst201"],
-nav a[href*="logi201"] {
+nav a[href*="logi201"],
+nav a[href*="regr201"] {
 	border-left: 3px solid #f57c00 !important;
 	padding-left: 0.625rem !important;
 }

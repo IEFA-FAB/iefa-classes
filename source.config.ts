@@ -1,4 +1,6 @@
 import { defineConfig, defineDocs } from "fumadocs-mdx/config";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 /** Remark plugin: transforma blocos ```mermaid em <Mermaid chart="..." /> */
 function remarkMermaid() {
@@ -41,6 +43,7 @@ export const docs = defineDocs({
 
 export default defineConfig({
 	mdxOptions: {
-		remarkPlugins: [remarkMermaid],
+		remarkPlugins: [remarkMermaid, remarkMath],
+		rehypePlugins: (v) => [rehypeKatex, ...v],
 	},
 });
