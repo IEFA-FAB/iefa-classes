@@ -10,6 +10,9 @@ async function getMermaid() {
 		mermaid.initialize({
 			startOnLoad: false,
 			theme: "dark",
+			// Mermaid 12 trocou o padrão para ELK + look "neo"; mantém a aparência anterior
+			layout: "dagre",
+			look: "classic",
 			darkMode: true,
 			fontFamily: "var(--font-geist-sans, sans-serif)",
 			gantt: { fontSize: 11 },

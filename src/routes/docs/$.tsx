@@ -8,8 +8,11 @@ import {
 	DocsDescription,
 	DocsPage,
 	DocsTitle,
+	MarkdownCopyButton,
+	ViewOptionsPopover,
 } from "fumadocs-ui/layouts/docs/page";
 import { baseOptions } from "@/lib/layout.shared";
+import { gitConfig } from "@/lib/shared";
 import { useFumadocsLoader } from "fumadocs-core/source/client";
 import { Suspense } from "react";
 import { useMDXComponents } from "@/components/mdx";
@@ -40,12 +43,19 @@ const serverLoader = createServerFn({ method: "GET" })
 const clientLoader = browserCollections.docs.createClientLoader({
 	component(
 		{ toc, frontmatter, default: MDX },
-		{ markdownUrl: _markdownUrl, path: _path }: { markdownUrl: string; path: string },
+		{ markdownUrl, path }: { markdownUrl: string; path: string },
 	) {
 		return (
 			<DocsPage toc={toc} tableOfContent={{ style: 'clerk' }}>
 				<DocsTitle>{frontmatter.title}</DocsTitle>
-				<DocsDescription>{frontmatter.description}</DocsDescription>
+				<DocsDescription className="mb-0">{frontmatter.description}</DocsDescription>
+				<div className="flex flex-row flex-wrap items-center gap-2 border-b pb-6">
+					<MarkdownCopyButton markdownUrl={markdownUrl} />
+					<ViewOptionsPopover
+						markdownUrl={markdownUrl}
+						githubUrl={`https://github.com/${gitConfig.user}/${gitConfig.repo}/blob/${gitConfig.branch}/content/docs/${path}`}
+					/>
+				</div>
 				<DocsBody>
 					<MDX components={useMDXComponents()} />
 				</DocsBody>
