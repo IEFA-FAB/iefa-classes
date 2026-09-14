@@ -6,7 +6,7 @@
 
 **ENSINO**
 
-| ICA 38-758  CURSO PRÁTICO PARA OS ASPIRANTES A OFICIAL INTENDENTE CPAINT  2026 |
+| ICA 37-758  CURSO PRÁTICO PARA OS ASPIRANTES A OFICIAL INTENDENTE CPAINT  2026 |
 | :---: |
 
 ![][image2]  
@@ -16,11 +16,11 @@ INSTITUTO DE ECONOMIA, FINANÇAS E ADMINISTRAÇÃO DA AERONÁUTICA
 
 PORTARIA SEFA Nº XX/XX, DE XX DE XX DE 2025\.
 
-Aprova a ICA 38-758 Projeto Pedagógico de Curso do Curso Prático para os Aspirantes a Oficial Intendente (CPAINT), no ano de 2026\.
+Aprova a ICA 37-758 Projeto Pedagógico de Curso do Curso Prático para os Aspirantes a Oficial Intendente (CPAINT), no ano de 2026\.
 
 O **SECRETÁRIO DE ECONOMIA, FINANÇAS E ADMINISTRAÇÃO DA AERONÁUTICA,** , no uso das atribuições que lhe conferem: o art. 22 do Decreto nº 11.237, de 18 de outubro de 2022, publicado no Diário Oficial da União (DOU) nº 199, de 19 de outubro de 2022; o ROCA 20-8 (Regulamento da SEFA), aprovado pela Portaria nº 241/GC3, de 9 de fevereiro de 2022; o RICA 20-2 (Regimento Interno da SEFA), aprovado pela Portaria SEFA nº 1453/AJUR, de 15 de maio de 2024, combinados com a Delegação de Competência prevista na Portaria nº 188/GC3, de 30 de janeiro de 2017, publicada no DOU nº 22, de 31 de janeiro de 2017, **resolve**:
 
-Art. 1º Aprovar a reedição da ICA 38-758 “Curso Prático para os Aspirantes a Oficial Intendente (CPAINT)”.
+Art. 1º Aprovar a reedição da ICA 37-758 “Curso Prático para os Aspirantes a Oficial Intendente (CPAINT)”.
 
 Art. 2º  Esta portaria entra em vigor na data de sua publicação.
 

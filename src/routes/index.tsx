@@ -110,7 +110,7 @@ function Home() {
 						Projeto Pedagógico de Curso (PPC)
 					</h4>
 					<p className="text-xs text-fd-muted-foreground">
-						Consulte a ICA 38-758 que rege o funcionamento do CPAINT.
+						Consulte a ICA 37-758 que rege o funcionamento do CPAINT.
 					</p>
 				</Link>
 
