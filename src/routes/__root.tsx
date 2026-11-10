@@ -1,12 +1,6 @@
-import {
-	createRootRoute,
-	HeadContent,
-	Outlet,
-	Scripts,
-} from "@tanstack/react-router";
-import * as React from "react";
-import appCss from "@/styles/app.css?url";
-import { RootProvider } from "fumadocs-ui/provider/tanstack";
+import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router"
+import { RootProvider } from "fumadocs-ui/provider/tanstack"
+import appCss from "@/styles/app.css?url"
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -16,8 +10,7 @@ export const Route = createRootRoute({
 			{ title: "IEFA — CPAINT" },
 			{
 				name: "description",
-				content:
-					"Plano de Aula do Curso Prático para Aspirantes a Oficial Intendentes da Força Aérea Brasileira.",
+				content: "Plano de Aula do Curso Prático para Aspirantes a Oficial Intendentes da Força Aérea Brasileira.",
 			},
 		],
 		links: [
@@ -26,7 +19,7 @@ export const Route = createRootRoute({
 		],
 	}),
 	component: RootComponent,
-});
+})
 
 function RootComponent() {
 	return (
@@ -41,5 +34,5 @@ function RootComponent() {
 				<Scripts />
 			</body>
 		</html>
-	);
+	)
 }

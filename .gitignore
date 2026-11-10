@@ -1,10 +1,13 @@
 # build output
 dist/
-.vercel/output/
+.vercel/
 
-# generated types
-.astro/
+# generated
 .source/
+.output/
+.nitro/
+.tanstack/
+.next/
 
 # dependencies
 node_modules/

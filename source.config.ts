@@ -1,15 +1,15 @@
-import { defineConfig, defineDocs } from "fumadocs-mdx/config";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
+import { defineConfig, defineDocs } from "fumadocs-mdx/config"
+import rehypeKatex from "rehype-katex"
+import remarkMath from "remark-math"
 
 /** Remark plugin: transforma blocos ```mermaid em <Mermaid chart="..." /> */
 function remarkMermaid() {
 	return (tree: Record<string, unknown>) => {
 		function visit(node: Record<string, unknown>) {
-			if (!node.children) return;
-			const children = node.children as Array<Record<string, unknown>>;
+			if (!node.children) return
+			const children = node.children as Array<Record<string, unknown>>
 			for (let i = 0; i < children.length; i++) {
-				const child = children[i];
+				const child = children[i]
 				if (child.type === "code" && child.lang === "mermaid") {
 					children[i] = {
 						type: "mdxJsxFlowElement",
@@ -22,14 +22,14 @@ function remarkMermaid() {
 							},
 						],
 						children: [],
-					};
+					}
 				} else {
-					visit(child);
+					visit(child)
 				}
 			}
 		}
-		visit(tree);
-	};
+		visit(tree)
+	}
 }
 
 export const docs = defineDocs({
@@ -39,11 +39,11 @@ export const docs = defineDocs({
 			includeProcessedMarkdown: true,
 		},
 	},
-});
+})
 
 export default defineConfig({
 	mdxOptions: {
 		remarkPlugins: [remarkMermaid, remarkMath],
 		rehypePlugins: (v) => [rehypeKatex, ...v],
 	},
-});
+})

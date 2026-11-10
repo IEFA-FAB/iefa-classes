@@ -1,0 +1,11 @@
+bun run format:check
+
+# Bloqueio de segredo antes do commit. Sem gitleaks instalado, segue com aviso.
+if command -v gitleaks >/dev/null 2>&1; then
+	if ! gitleaks git --staged --redact --no-banner --exit-code 1; then
+		echo "gitleaks encontrou um possível segredo no que está staged. Commit abortado."
+		exit 1
+	fi
+else
+	echo "[aviso] gitleaks não instalado, pulando varredura de segredos"
+fi

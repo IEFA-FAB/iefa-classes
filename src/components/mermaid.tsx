@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react"
 
-let initialized = false;
-let counter = 0;
+let initialized = false
+let counter = 0
 
 async function getMermaid() {
-	const { default: mermaid } = await import("mermaid");
+	const { default: mermaid } = await import("mermaid")
 	if (!initialized) {
-		initialized = true;
+		initialized = true
 		mermaid.initialize({
 			startOnLoad: false,
 			theme: "dark",
@@ -16,13 +16,13 @@ async function getMermaid() {
 			darkMode: true,
 			fontFamily: "var(--font-geist-sans, sans-serif)",
 			gantt: { fontSize: 11 },
-		});
+		})
 	}
-	return mermaid;
+	return mermaid
 }
 
 interface MermaidProps {
-	chart: string;
+	chart: string
 }
 
 /**
@@ -31,40 +31,30 @@ interface MermaidProps {
  * Importa mermaid via dynamic import para não incluir no bundle SSR.
  */
 export function Mermaid({ chart }: MermaidProps) {
-	const containerRef = useRef<HTMLDivElement>(null);
-	const [error, setError] = useState<string | null>(null);
+	const containerRef = useRef<HTMLDivElement>(null)
+	const [error, setError] = useState<string | null>(null)
 
 	useEffect(() => {
-		const id = `mermaid-${counter++}`;
+		const id = `mermaid-${counter++}`
 
 		getMermaid()
 			.then((mermaid) => mermaid.render(id, chart))
 			.then((result) => {
-				const el = containerRef.current;
-				if (!el) return;
+				const el = containerRef.current
+				if (!el) return
 				// Parse SVG string via DOMParser e adiciona ao DOM via appendChild
-				const parser = new DOMParser();
-				const doc = parser.parseFromString(result.svg, "image/svg+xml");
-				const svgEl = doc.documentElement;
-				while (el.firstChild) el.removeChild(el.firstChild);
-				el.appendChild(el.ownerDocument.adoptNode(svgEl));
+				const parser = new DOMParser()
+				const doc = parser.parseFromString(result.svg, "image/svg+xml")
+				const svgEl = doc.documentElement
+				while (el.firstChild) el.removeChild(el.firstChild)
+				el.appendChild(el.ownerDocument.adoptNode(svgEl))
 			})
-			.catch((err) => setError(String(err)));
-	}, [chart]);
+			.catch((err) => setError(String(err)))
+	}, [chart])
 
 	if (error) {
-		return (
-			<pre className="overflow-x-auto rounded border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400">
-				Mermaid error: {error}
-			</pre>
-		);
+		return <pre className="overflow-x-auto rounded border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400">Mermaid error: {error}</pre>
 	}
 
-	return (
-		<div
-			ref={containerRef}
-			className="mermaid my-8 overflow-x-auto rounded-lg pb-4"
-			aria-label="Diagrama Mermaid"
-		/>
-	);
+	return <div ref={containerRef} className="mermaid my-8 overflow-x-auto rounded-lg pb-4" role="img" aria-label="Diagrama Mermaid" />
 }

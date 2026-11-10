@@ -1,13 +1,13 @@
-import { cn } from "@/lib/cn";
-import type { ReactNode } from "react";
+import type { ReactNode } from "react"
+import { cn } from "@/lib/cn"
 
-type BadgeVariant = "note" | "tip" | "success" | "caution" | "danger";
+type BadgeVariant = "note" | "tip" | "success" | "caution" | "danger"
 
 interface BadgeProps {
-	children: ReactNode;
+	children: ReactNode
 	/** Compatível com variantes do Starlight */
-	variant?: BadgeVariant;
-	className?: string;
+	variant?: BadgeVariant
+	className?: string
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
@@ -16,18 +16,14 @@ const variantClasses: Record<BadgeVariant, string> = {
 	success: "bg-green-500/15 text-green-600 border-green-500/30",
 	caution: "bg-amber-500/15 text-amber-600 border-amber-500/30",
 	danger: "bg-red-500/15 text-red-500 border-red-500/30",
-};
+}
 
 export function Badge({ children, variant = "note", className }: BadgeProps) {
 	return (
 		<span
-			className={cn(
-				"inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap",
-				variantClasses[variant],
-				className,
-			)}
+			className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap", variantClasses[variant], className)}
 		>
 			{children}
 		</span>
-	);
+	)
 }

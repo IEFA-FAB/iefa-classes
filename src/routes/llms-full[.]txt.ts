@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { docsLlms } from "@/lib/source";
+import { createFileRoute } from "@tanstack/react-router"
+import { docsLlms } from "@/lib/source"
 
 export const Route = createFileRoute("/llms-full.txt")({
 	server: {
@@ -7,4 +7,4 @@ export const Route = createFileRoute("/llms-full.txt")({
 			GET: async () => new Response(await docsLlms.full()),
 		},
 	},
-});
+})
