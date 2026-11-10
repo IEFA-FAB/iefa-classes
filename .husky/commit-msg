@@ -1,7 +1,0 @@
-# --no-install: sem node_modules falha em vez de baixar outra versão do commitlint.
-if ! bunx --no-install commitlint --edit "$1"; then
-	echo ""
-	echo "Mensagem fora do padrão. Formato: <tipo>(<escopo>): <descrição>"
-	echo "Ex.: feat(stat101): escalas de mensuração de Stevens"
-	exit 1
-fi

@@ -1,5 +1,4 @@
 import type { ReactNode } from "react"
-import { cn } from "@/lib/cn"
 
 type BadgeVariant = "note" | "tip" | "success" | "caution" | "danger"
 
@@ -21,7 +20,9 @@ const variantClasses: Record<BadgeVariant, string> = {
 export function Badge({ children, variant = "note", className }: BadgeProps) {
 	return (
 		<span
-			className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap", variantClasses[variant], className)}
+			className={["inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap", variantClasses[variant], className]
+				.filter(Boolean)
+				.join(" ")}
 		>
 			{children}
 		</span>

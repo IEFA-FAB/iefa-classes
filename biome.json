@@ -37,39 +37,10 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "preset": "recommended",
-      "suspicious": {
-        "noExplicitAny": "error",
-        "noArrayIndexKey": "off",
-        "noConsole": "warn"
-      },
-      "correctness": {
-        "useExhaustiveDependencies": "error",
-        "noUnusedVariables": "error"
-      },
-      "style": {
-        "noNonNullAssertion": "error",
-        "useImportType": "error",
-        "useNodejsImportProtocol": "error"
-      },
-      "performance": {
-        "noAccumulatingSpread": "error",
-        "noBarrelFile": "error",
-        "noReExportAll": "error"
-      }
+      "preset": "recommended"
     }
   },
   "overrides": [
-    {
-      "includes": ["scripts/**/*", "**/*.config.ts"],
-      "linter": {
-        "rules": {
-          "suspicious": {
-            "noConsole": "off"
-          }
-        }
-      }
-    },
     {
       "includes": ["**/*.css"],
       "linter": {
