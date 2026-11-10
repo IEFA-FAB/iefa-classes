@@ -14,15 +14,17 @@ Ao final desta matéria, o aluno deverá ser capaz de:
 
 <Steps>
 
-1. Compreender os conceitos de média, mediana e moda e quando utilizar cada um.
+1. Classificar uma variável numa das quatro escalas de mensuração de Stevens (nominal, ordinal, intervalar e razão) e escolher a estatística compatível com ela.
 
-2. Calcular e interpretar medidas de dispersão (variância e desvio padrão).
+2. Compreender os conceitos de média, mediana e moda e quando utilizar cada um.
 
-3. Entender a Distribuição Normal e sua importância para o cálculo de estoque de segurança.
+3. Calcular e interpretar medidas de dispersão (variância e desvio padrão).
 
-4. Identificar outliers em uma série de dados.
+4. Entender a Distribuição Normal e sua importância para o cálculo de estoque de segurança.
 
-5. Compreender **intuitivamente** os conceitos de teste de hipótese (valor-p e hipótese nula) e o que significa "estatisticamente significativo".
+5. Identificar outliers em uma série de dados.
+
+6. Compreender **intuitivamente** os conceitos de teste de hipótese (valor-p e hipótese nula) e o que significa "estatisticamente significativo".
 
 </Steps>
 
@@ -30,12 +32,43 @@ Ao final desta matéria, o aluno deverá ser capaz de:
 
 | Módulo | Tópico | Tipo |
 | :------ | :---------------------------------------- | :--- |
-| [Módulo 2](./cronograma/2026) | Medidas de Tendência Central (Média, Mediana) | Teoria+Prática |
+| [Módulo 2](./cronograma/2026) | Escalas de Mensuração (Stevens) e Tendência Central (Média, Mediana) | Teoria+Prática |
 | [Módulo 3](./cronograma/2026) | Dispersão (Desvio Padrão) e Distribuição Normal | Teoria |
 | [Módulo 4](./cronograma/2026) | Outliers e Hipótese Nula (Intuição) | Teoria |
 | [Módulo 5](./cronograma/2026) | Correlação e Causalidade | Teoria |
 
 ## Tópicos Abordados
+
+### Escalas de Mensuração (Stevens, 1946)
+
+Antes de calcular qualquer coisa, pergunte: **o que este número sabe?** O "2" nas costas de uma camisa de futebol e o "2" de uma régua não são o mesmo número. O primeiro só identifica o jogador; o segundo mede uma distância. Em 1946, o psicólogo Stanley Smith Stevens, de Harvard, organizou as variáveis em quatro níveis. Cada nível herda as propriedades do anterior e acrescenta uma nova, e é essa propriedade que autoriza (ou proíbe) cada conta.
+
+| Escala | O que o número informa | Operações válidas | Exemplos na Intendência | Tendência central | Dispersão |
+| :----- | :--------------------- | :---------------- | :---------------------- | :---------------- | :-------- |
+| **Nominal** | Só identidade: igual ou diferente | `=` `≠`, contagem | Código do item (PN), OM consumidora, quadro (INT, AV, ESP), tipo de gênero | Moda | Frequência e proporção |
+| **Ordinal** | Ordem, com distâncias desiguais entre posições | Anteriores e `<` `>` | Posto (Ten → Cap → Maj), classe ABC, prioridade do pedido, escala Likert de questionário | Mediana | Percentis e amplitude interquartil |
+| **Intervalar** | Distâncias iguais, mas zero arbitrário | Anteriores e `+` `−` | Temperatura da câmara frigorífica em °C, ano do empenho | Média | Desvio padrão |
+| **Razão** | Zero absoluto: proporções fazem sentido | Anteriores e `×` `÷` | Quantidade consumida, lead time em dias, custo em R$, peso em kg | Média | Desvio padrão e CV |
+
+```mermaid
+flowchart TD
+    A[Variável] --> B{Os valores têm ordem?}
+    B -- Não --> N[Nominal: moda]
+    B -- Sim --> C{A distância entre valores é constante?}
+    C -- Não --> O[Ordinal: mediana]
+    C -- Sim --> D{O zero significa ausência total?}
+    D -- Não --> I[Intervalar: média e desvio padrão]
+    D -- Sim --> R[Razão: média, desvio padrão e CV]
+```
+
+<Callout type="warn" title="Contas que a escala não autoriza">
+- **Média de código**: a média dos PN de um almoxarifado é um número sem significado, porque o código só nomeia o item.
+- **Posto médio**: a média de "1º Ten = 2" e "Cap = 3" não é "um tenente e meio"; a distância entre postos não é constante.
+- **"Duas vezes mais frio"**: a câmara a 2 °C não está duas vezes mais fria que a 4 °C, porque o zero da escala Celsius é convenção, não ausência de calor.
+- **CV fora da razão**: o Coeficiente de Variação divide pela média e, por isso, só tem sentido quando o zero é absoluto.
+</Callout>
+
+> **Aplicação direta**: a demanda (quantidade consumida) é variável de razão, o que autoriza média, desvio padrão, CV e todo o cálculo de Estoque de Segurança. Já a classe ABC de [DATA201](./data201) é ordinal: é derivada do valor de consumo, mas, uma vez classificada, só informa a ordem de prioridade.
 
 ### Medidas de Tendência Central
 
@@ -92,12 +125,14 @@ O Fator Z é o elo entre estatística e logística: `ES = Z × σ_demanda × √
 
 <Steps>
 
-1. Calcular média e mediana de uma série com outlier e comparar o impacto em cada medida.
+1. Classificar as colunas de uma planilha de consumo do rancho (OM, data, gênero, classe ABC, temperatura de armazenagem, quantidade em kg, custo em R$) nas escalas de Stevens e indicar a medida de tendência central adequada a cada uma.
 
-2. Dado um desvio padrão e um nível de serviço, encontrar o fator Z e calcular o Estoque de Segurança.
+2. Calcular média e mediana de uma série com outlier e comparar o impacto em cada medida.
 
-3. Classificar um outlier em uma série de demanda e propor tratamento (exclusão ou substituição pela mediana).
+3. Dado um desvio padrão e um nível de serviço, encontrar o fator Z e calcular o Estoque de Segurança.
 
-4. Interpretar o coeficiente de correlação entre temperatura e consumo de um insumo.
+4. Classificar um outlier em uma série de demanda e propor tratamento (exclusão ou substituição pela mediana).
+
+5. Interpretar o coeficiente de correlação entre temperatura e consumo de um insumo.
 
 </Steps>
