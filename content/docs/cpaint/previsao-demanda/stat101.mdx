@@ -18,7 +18,7 @@ Ao final desta matéria, o aluno deverá ser capaz de:
 
 2. Compreender os conceitos de média, mediana e moda e quando utilizar cada um.
 
-3. Calcular e interpretar medidas de dispersão (variância e desvio padrão).
+3. Calcular e interpretar medidas de dispersão (variância e desvio padrão) e distinguir o desvio padrão do erro padrão da média.
 
 4. Entender a Distribuição Normal e sua importância para o cálculo de estoque de segurança.
 
@@ -33,7 +33,7 @@ Ao final desta matéria, o aluno deverá ser capaz de:
 | Módulo | Tópico | Tipo |
 | :------ | :---------------------------------------- | :--- |
 | [Módulo 2](./cronograma/2026) | Escalas de Mensuração (Stevens) e Tendência Central (Média, Mediana) | Teoria+Prática |
-| [Módulo 3](./cronograma/2026) | Dispersão (Desvio Padrão) e Distribuição Normal | Teoria |
+| [Módulo 3](./cronograma/2026) | Dispersão (Desvio Padrão e Erro Padrão) e Distribuição Normal | Teoria |
 | [Módulo 4](./cronograma/2026) | Outliers e Hipótese Nula (Intuição) | Teoria |
 | [Módulo 5](./cronograma/2026) | Correlação e Causalidade | Teoria |
 
@@ -86,9 +86,37 @@ O quão confiáveis (ou variáveis) são seus dados.
 
 - **Variância**: Média dos quadrados dos desvios. Útil para cálculos internos.
 - **Desvio Padrão (σ)**: Raiz da variância. Mesma unidade dos dados — o mais usado na prática.
+- **Erro Padrão da Média (EP)**: `σ / √n`. Mede o quanto a **média calculada** oscila de uma amostra para outra. Detalhado logo abaixo.
 - **Coeficiente de Variação (CV)**: `σ / Média`. Permite comparar a variabilidade de itens com escalas diferentes.
 
 > **Aplicação direta**: o desvio padrão da demanda é o insumo central do cálculo de Estoque de Segurança em [LOGI201](./logi201).
+
+### Erro Padrão da Média
+
+O desvio padrão responde **"quanto um dia varia em relação ao outro?"**. O erro padrão responde outra pergunta: **"quanto posso confiar na média que calculei?"**. Toda média vem de uma amostra (alguns meses de histórico, alguns dias de consumo). Outra amostra do mesmo rancho daria uma média um pouco diferente, e o erro padrão mede o tamanho dessa oscilação.
+
+$$
+EP = \frac{\sigma}{\sqrt{n}}
+$$
+
+Na prática, σ é estimado pelo desvio padrão da própria amostra ($s$), e $n$ é o número de observações.
+
+| | Desvio Padrão (σ) | Erro Padrão (EP) |
+| :- | :- | :- |
+| **Descreve** | A dispersão dos dados | A precisão da média estimada |
+| **Com mais dados** | Fica estável (é característica do item) | Diminui, na proporção de $\sqrt{n}$ |
+| **Uso na Intendência** | Estoque de Segurança, variabilidade da demanda | Margem de erro da demanda média, comparação entre períodos |
+
+<Callout type="info" title="Exemplo: consumo diário de arroz no rancho">
+Em 36 dias, o consumo médio foi de 120 kg, com desvio padrão de 30 kg.
+
+- **Desvio padrão**: um dia qualquer costuma ficar entre 90 e 150 kg (±1σ). É essa variação que o Estoque de Segurança precisa absorver.
+- **Erro padrão**: $EP = 30 / \sqrt{36} = 5$ kg. A demanda média verdadeira está, com cerca de 95% de confiança, entre $120 \pm 1{,}96 \times 5$, ou seja, entre 110 e 130 kg.
+
+Para reduzir o erro padrão à metade (2,5 kg) seria preciso **quadruplicar** a amostra, para 144 dias. Precisão na média custa caro em histórico.
+</Callout>
+
+> **Aplicação direta**: ao apresentar uma previsão ao gestor, informe a média **com** a margem de erro (média ± 1,96 × EP). Uma média calculada com 6 meses de histórico é bem menos precisa que outra com 3 anos, ainda que as duas tenham o mesmo valor. O erro padrão também é a régua do valor-p, visto na seção de hipótese nula: a diferença observada é medida em quantos erros padrão ela se afasta do esperado.
 
 ### Distribuição Normal (Curva de Gauss)
 
@@ -131,8 +159,10 @@ O Fator Z é o elo entre estatística e logística: `ES = Z × σ_demanda × √
 
 3. Dado um desvio padrão e um nível de serviço, encontrar o fator Z e calcular o Estoque de Segurança.
 
-4. Classificar um outlier em uma série de demanda e propor tratamento (exclusão ou substituição pela mediana).
+4. Calcular o erro padrão da demanda média de um item com 12 e com 48 meses de histórico e explicar por que a margem de erro caiu à metade.
 
-5. Interpretar o coeficiente de correlação entre temperatura e consumo de um insumo.
+5. Classificar um outlier em uma série de demanda e propor tratamento (exclusão ou substituição pela mediana).
+
+6. Interpretar o coeficiente de correlação entre temperatura e consumo de um insumo.
 
 </Steps>
